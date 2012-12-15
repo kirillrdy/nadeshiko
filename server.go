@@ -81,6 +81,11 @@ func fileServer(w http.ResponseWriter, req *http.Request) {
 
 
 func Start(port int) {
+
+	//TODO Perhaps we dont need to export these
+	Callbacks = make(map[string] OverSocketCallback)
+	Notifications = make(map[string] []WebsocketConnection)
+
 	http.Handle("/websocket_client", websocket.Handler(websocketServer))
 	http.HandleFunc("/", fileServer)
 
