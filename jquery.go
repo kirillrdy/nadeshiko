@@ -1,7 +1,6 @@
 package nadeshiko
 
 import "fmt"
-//import "math/rand"
 import "strconv"
 import "time"
 
@@ -17,87 +16,98 @@ func (ws *WebsocketConnection) JQuery(selector string) (element JQuerySelectedEl
 	return
 }
 
-type HTMLAble interface {
-	Html() string
+
+func (element JQuerySelectedElements) Append(content string) {
+	element.oneArgumentMethod("append",content)
 }
 
 
-//TODO DRY these 3 funcs Append,SetVal, SetText, Empty
-func (element JQuerySelectedElements) Append(content HTMLAble) {
-	string_content := strconv.Quote(content.Html())
-	string_to_send := fmt.Sprintf("$('%s').append(%s)", element.selector, string_content)
+//TODO get rid of this method, and figure out more neat way of chaining jquery methods
+func (element JQuerySelectedElements) PrevRemove() {
+	string_to_send := fmt.Sprintf("$('%s').prev().remove()", element.selector)
 	element.ws.SendMessage(string_to_send)
 }
 
-func (element JQuerySelectedElements) AppendString(content string) {
-	string_content := strconv.Quote(content)
-	string_to_send := fmt.Sprintf("$('%s').append(%s)", element.selector, string_content)
-	element.ws.SendMessage(string_to_send)
+func (element JQuerySelectedElements) Before(content string) {
+	element.oneArgumentMethod("before",content)
+}
+
+func (element JQuerySelectedElements) PrependString(content string) {
+	element.oneArgumentMethod("prepend",content)
 }
 
 func (element JQuerySelectedElements) SetVal(new_value string) {
-	string_content := strconv.Quote(new_value)
-	string_to_send := fmt.Sprintf("$('%s').val(%s)", element.selector, string_content)
-	element.ws.SendMessage(string_to_send)
+	element.oneArgumentMethod("val",new_value)
 }
 
 func (element JQuerySelectedElements) SetText(new_value string) {
-	string_content := strconv.Quote(new_value)
-	string_to_send := fmt.Sprintf("$('%s').text(%s)", element.selector, string_content)
-	element.ws.SendMessage(string_to_send)
+	element.oneArgumentMethod("text",new_value)
 }
 
 func (element JQuerySelectedElements) Empty() {
-	string_to_send := fmt.Sprintf("$('%s').empty()", element.selector)
-	element.ws.SendMessage(string_to_send)
+	element.zeroArgumentMethod('empty')
 }
 
 func (element JQuerySelectedElements) Remove() {
-	string_to_send := fmt.Sprintf("$('%s').remove()", element.selector)
-	element.ws.SendMessage(string_to_send)
+	element.zeroArgumentMethod('remove')
 }
 
 
-
 func (element JQuerySelectedElements) Click(callback func()) {
-	now := time.Now()
-	random_number := now.UnixNano()
-	random_string := fmt.Sprintf("%x",random_number)
+	callback_id := generateCallbackId()
 
-	Callbacks[random_string] = OverSocketCallback{element.ws, false, func(...string) {
+	Callbacks[callback_id] = OverSocketCallback{element.ws, false, func(...string) {
 		callback()
 	}}
 
-	string_to_send := fmt.Sprintf("$('%s').click(function(){ ws.send(JSON.stringify([\"%x\"])); });", element.selector, random_number)
+	string_to_send := fmt.Sprintf("$('%s').click(function(){ ws.send(JSON.stringify([\"%x\"])); });", element.selector, callback_id)
 	element.ws.SendMessage(string_to_send)
 }
 
 //TODO refactor function body, not DRY
 func (element JQuerySelectedElements) Keydown(callback func(int)) {
-	now := time.Now()
-	//TODO get better way of generating uniq number
-	random_number := now.UnixNano()
-	random_string := fmt.Sprintf("%x",random_number)
 
-	Callbacks[random_string] = OverSocketCallback{element.ws, false, func(vals ...string) {
+	callback_id := generateCallbackId()
+	fmt.Printf("from keydown %s \n",callback_id)
+
+	Callbacks[callback_id] = OverSocketCallback{element.ws, false, func(vals ...string) {
+		fmt.Printf("vals[1] %s \n",vals[1])
 		key, _ := strconv.Atoi(vals[1])
 		callback(key)
 	}}
 
-	string_to_send := fmt.Sprintf("$('%s').keydown(function(event){ ws.send(JSON.stringify([\"%x\",event.which.toString()])); });", element.selector, random_number)
+	string_to_send := fmt.Sprintf("$('%s').keydown(function(event){ ws.send(JSON.stringify([\"%s\",event.keyCode.toString()])); });", element.selector, callback_id)
 	element.ws.SendMessage(string_to_send)
 }
 
 func (element JQuerySelectedElements) GetVal(callback func(string)) {
-	//TODO DRY this
-	now := time.Now()
-	random_number := now.UnixNano()
-	random_string := fmt.Sprintf("%x",random_number)
+	random_string := generateCallbackId()
 
 	Callbacks[random_string] = OverSocketCallback{element.ws, true, func(vals ...string){
 		callback(vals[1])
 	}}
 
-	string_to_send := fmt.Sprintf("ws.send( JSON.stringify([\"%x\",$('%s').val()])); ", random_number, element.selector)
+	string_to_send := fmt.Sprintf("ws.send( JSON.stringify([\"%s\",$('%s').val()])); ", random_string, element.selector)
+	element.ws.SendMessage(string_to_send)
+}
+
+////////////////////////////////////////////////////////////////////////////////////
+// Unexported functions go here
+
+func generateCallbackId() string {
+	now := time.Now()
+	//TODO get better way of generating uniq number
+	random_number := now.UnixNano()
+	return fmt.Sprintf("%x",random_number)
+}
+
+func (element JQuerySelectedElements) oneArgumentMethod(name string, param string) {
+	string_content := strconv.Quote(param)
+	string_to_send := fmt.Sprintf("$('%s').%s(%s)", element.selector, name, string_content)
+	element.ws.SendMessage(string_to_send)
+}
+
+func (element JQuerySelectedElements) zeroArgumentMethod(name string) {
+	string_to_send := fmt.Sprintf("$('%s').%s()", element.selector, name)
 	element.ws.SendMessage(string_to_send)
 }
