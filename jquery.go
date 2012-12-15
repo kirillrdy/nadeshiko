@@ -45,11 +45,11 @@ func (element JQuerySelectedElements) SetText(new_value string) {
 }
 
 func (element JQuerySelectedElements) Empty() {
-	element.zeroArgumentMethod('empty')
+	element.zeroArgumentMethod("empty")
 }
 
 func (element JQuerySelectedElements) Remove() {
-	element.zeroArgumentMethod('remove')
+	element.zeroArgumentMethod("remove")
 }
 
 
