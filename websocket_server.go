@@ -61,14 +61,13 @@ func websocketServer(ws *websocket.Conn) {
 	fmt.Println("Client disconnected")
 
 	//TODO find more efficient way of dealing with lots of notifications
-	//TODO FIX FIX
 	//for k, v := range Notifications {
 	//	var new_list []WebsocketConnection
-	//	for _, jFunction := range v {
-	//		if jFunction("").ws != &wrapper_socket {
-	//			new_list = append(new_list,jFunction)
+	//	for _, a_connection := range v {
+	//		if a_connection != &connection {
+	//			new_list = append(new_list,a_connection)
 	//		} else {
-	//			fmt.Printf("Removing Notification '%s' for disconnected client %v\n", k, wrapper_socket)
+	//			fmt.Printf("Removing Notification '%s' for disconnected client %v\n", k, connection)
 	//		}
 	//	}
 	//	Notifications[k] = new_list
