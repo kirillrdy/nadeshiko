@@ -33,7 +33,7 @@ func websocketServer(ws *websocket.Conn) {
 			break
 		}
 
-		if verbose {
+		if Verbose {
 			quoted_contet := strconv.Quote(buf)
 			fmt.Printf("received: %s\n", quoted_contet)
 		}
@@ -50,8 +50,9 @@ func websocketServer(ws *websocket.Conn) {
 				fmt.Printf("Removing one time %d \n",len(Callbacks))
 				delete(Callbacks, json_array[0])
 			}
-
-			fmt.Printf("Current callbacks count %d \n",len(Callbacks))
+			if Verbose {
+				fmt.Printf("Current callbacks count %d \n",len(Callbacks))
+			}
 
 		} else {
 			fmt.Printf("Cant find callback for %s \n",json_array[0])

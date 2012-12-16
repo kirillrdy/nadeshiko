@@ -21,7 +21,7 @@ type OverSocketCallback struct {
 }
 
 var	Callbacks map[string] OverSocketCallback
-var verbose bool
+var Verbose bool
 
 
 type WebsocketConnection websocket.Conn
@@ -57,7 +57,7 @@ func (ws *WebsocketConnection) SendMessage(message string) {
 
 
 	//TODO if we fail send we should remove Callbacks and Notifications
-	if verbose {
+	if Verbose {
 		fmt.Printf("send: %s\n", message)
 	}
 }
@@ -83,12 +83,12 @@ func fileServer(w http.ResponseWriter, req *http.Request) {
 }
 
 
-func Start(port int) {
+func Start(port int, verbose bool) {
 
 	//TODO Perhaps we dont need to export these
 	Callbacks = make(map[string] OverSocketCallback)
-	Notifications = make(map[string] []WebsocketConnection)
-	verbose = false
+	Notifications = make(map[string] []*WebsocketConnection)
+	Verbose = verbose
 
 	http.Handle("/websocket_client", websocket.Handler(websocketServer))
 	http.HandleFunc("/", fileServer)
