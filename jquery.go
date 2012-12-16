@@ -60,7 +60,7 @@ func (element JQuerySelectedElements) Click(callback func()) {
 		callback()
 	}}
 
-	string_to_send := fmt.Sprintf("$('%s').click(function(){ ws.send(JSON.stringify([\"%x\"])); });", element.selector, callback_id)
+	string_to_send := fmt.Sprintf("$('%s').click(function(){ ws.send(JSON.stringify([\"%s\"])); });", element.selector, callback_id)
 	element.ws.SendMessage(string_to_send)
 }
 
