@@ -9,7 +9,7 @@ func (html Raw) Html() (data string) {
 	return
 }
 
-func Template(name string) Raw {
+func Template(name string) string{
 	content, _ := ioutil.ReadFile("template/"+name)
-	return Raw(string(content))
+	return string(content)
 }
