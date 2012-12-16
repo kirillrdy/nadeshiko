@@ -33,8 +33,10 @@ func websocketServer(ws *websocket.Conn) {
 			break
 		}
 
-		quoted_contet := strconv.Quote(buf)
-		fmt.Printf("received: %s\n", quoted_contet)
+		if verbose {
+			quoted_contet := strconv.Quote(buf)
+			fmt.Printf("received: %s\n", quoted_contet)
+		}
 
 		var json_array []string
 		json.Unmarshal([]byte(buf),&json_array)
