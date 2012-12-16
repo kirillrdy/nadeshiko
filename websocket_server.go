@@ -16,7 +16,7 @@ func websocketServer(ws *websocket.Conn) {
 		panic("Need to set DefaultActivity")
 		os.Exit(1)
 	}
-	DefaultActivity.Start(connection)
+	DefaultActivity.Start(&connection)
 
 	//TODO fix this testing thing
 	//if *test_env {
