@@ -70,7 +70,6 @@ func (element JQuerySelectedElements) Keydown(callback func(int)) {
 	callback_id := generateCallbackId()
 
 	Callbacks[callback_id] = OverSocketCallback{element.ws, false, func(vals ...string) {
-		fmt.Printf("vals[1] %s \n",vals[1])
 		key, _ := strconv.Atoi(vals[1])
 		callback(key)
 	}}
