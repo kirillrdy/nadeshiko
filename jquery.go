@@ -68,7 +68,6 @@ func (element JQuerySelectedElements) Click(callback func()) {
 func (element JQuerySelectedElements) Keydown(callback func(int)) {
 
 	callback_id := generateCallbackId()
-	fmt.Printf("from keydown %s \n",callback_id)
 
 	Callbacks[callback_id] = OverSocketCallback{element.ws, false, func(vals ...string) {
 		fmt.Printf("vals[1] %s \n",vals[1])
