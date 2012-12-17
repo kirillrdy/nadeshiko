@@ -51,7 +51,7 @@ func websocketServer(ws *websocket.Conn) {
 		if callbackStruct, ok := Callbacks[json_array[0]]; ok {
 			callbackStruct.Callback(json_array...)
 			if callbackStruct.OneTimeOnly {
-				fmt.Printf("Removing one time %d \n",len(Callbacks))
+				fmt.Printf("Removing one-time callback, curent count %d \n",len(Callbacks))
 				delete(Callbacks, json_array[0])
 			}
 			if Verbose {
@@ -65,18 +65,7 @@ func websocketServer(ws *websocket.Conn) {
 
 	fmt.Println("Client disconnected")
 
-	//TODO find more efficient way of dealing with lots of notifications
-	//for k, v := range Notifications {
-	//	var new_list []WebsocketConnection
-	//	for _, a_connection := range v {
-	//		if a_connection != &connection {
-	//			new_list = append(new_list,a_connection)
-	//		} else {
-	//			fmt.Printf("Removing Notification '%s' for disconnected client %v\n", k, connection)
-	//		}
-	//	}
-	//	Notifications[k] = new_list
-	//}
+	RemoveNotification(&connection)
 
 	for callback_id, callbackStruct := range Callbacks {
 		if callbackStruct.connection == &connection {
