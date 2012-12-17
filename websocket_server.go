@@ -9,13 +9,17 @@ import "fmt"
 func websocketServer(ws *websocket.Conn) {
 	fmt.Printf("New client connection on %#v\n", ws)
 
-	connection := WebsocketConnection(*ws)
+
+	socket := WebsocketConnection(*ws)
+
+	connection := Connection{websocket: &socket}
 
 	//TODO check for DefaultActivity being set
 	if DefaultActivity == nil {
 		panic("Need to set DefaultActivity")
 		os.Exit(1)
 	}
+
 	DefaultActivity.Start(&connection)
 
 	//TODO fix this testing thing
@@ -75,7 +79,7 @@ func websocketServer(ws *websocket.Conn) {
 	//}
 
 	for callback_id, callbackStruct := range Callbacks {
-		if callbackStruct.ws == &connection {
+		if callbackStruct.connection == &connection {
 			delete(Callbacks, callback_id)
 			fmt.Printf("Removing callback %s for disconnected client\n",callback_id)
 		}

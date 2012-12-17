@@ -7,12 +7,12 @@ import "time"
 
 type JQuerySelectedElements struct {
 	selector string
-	ws       *WebsocketConnection
+	connection *Connection
 }
 
-func (ws *WebsocketConnection) JQuery(selector string) (element JQuerySelectedElements) {
+func (connection *Connection) JQuery(selector string) (element JQuerySelectedElements) {
 	element.selector = selector
-	element.ws = ws
+	element.connection = connection
 	return
 }
 
@@ -25,7 +25,7 @@ func (element JQuerySelectedElements) Append(content string) {
 //TODO get rid of this method, and figure out more neat way of chaining jquery methods
 func (element JQuerySelectedElements) PrevRemove() {
 	string_to_send := fmt.Sprintf("$('%s').prev().remove()", element.selector)
-	element.ws.SendMessage(string_to_send)
+	element.connection.SendMessage(string_to_send)
 }
 
 func (element JQuerySelectedElements) Before(content string) {
@@ -56,12 +56,12 @@ func (element JQuerySelectedElements) Remove() {
 func (element JQuerySelectedElements) Click(callback func()) {
 	callback_id := generateCallbackId()
 
-	Callbacks[callback_id] = OverSocketCallback{element.ws, false, func(...string) {
+	Callbacks[callback_id] = OverSocketCallback{element.connection, false, func(...string) {
 		callback()
 	}}
 
 	string_to_send := fmt.Sprintf("$('%s').click(function(){ ws.send(JSON.stringify([\"%s\"])); });", element.selector, callback_id)
-	element.ws.SendMessage(string_to_send)
+	element.connection.SendMessage(string_to_send)
 }
 
 //TODO refactor function body, not DRY
@@ -69,24 +69,24 @@ func (element JQuerySelectedElements) Keydown(callback func(int)) {
 
 	callback_id := generateCallbackId()
 
-	Callbacks[callback_id] = OverSocketCallback{element.ws, false, func(vals ...string) {
+	Callbacks[callback_id] = OverSocketCallback{element.connection, false, func(vals ...string) {
 		key, _ := strconv.Atoi(vals[1])
 		callback(key)
 	}}
 
 	string_to_send := fmt.Sprintf("$('%s').keydown(function(event){ ws.send(JSON.stringify([\"%s\",event.keyCode.toString()])); });", element.selector, callback_id)
-	element.ws.SendMessage(string_to_send)
+	element.connection.SendMessage(string_to_send)
 }
 
 func (element JQuerySelectedElements) GetVal(callback func(string)) {
 	random_string := generateCallbackId()
 
-	Callbacks[random_string] = OverSocketCallback{element.ws, true, func(vals ...string){
+	Callbacks[random_string] = OverSocketCallback{element.connection, true, func(vals ...string){
 		callback(vals[1])
 	}}
 
 	string_to_send := fmt.Sprintf("ws.send( JSON.stringify([\"%s\",$('%s').val()])); ", random_string, element.selector)
-	element.ws.SendMessage(string_to_send)
+	element.connection.SendMessage(string_to_send)
 }
 
 ////////////////////////////////////////////////////////////////////////////////////
@@ -102,10 +102,10 @@ func generateCallbackId() string {
 func (element JQuerySelectedElements) oneArgumentMethod(name string, param string) {
 	string_content := strconv.Quote(param)
 	string_to_send := fmt.Sprintf("$('%s').%s(%s)", element.selector, name, string_content)
-	element.ws.SendMessage(string_to_send)
+	element.connection.SendMessage(string_to_send)
 }
 
 func (element JQuerySelectedElements) zeroArgumentMethod(name string) {
 	string_to_send := fmt.Sprintf("$('%s').%s()", element.selector, name)
-	element.ws.SendMessage(string_to_send)
+	element.connection.SendMessage(string_to_send)
 }
