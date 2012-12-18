@@ -54,15 +54,13 @@ func (element JQuerySelectedElements) Remove() {
 
 
 func (element JQuerySelectedElements) Click(callback func()) {
-	callback_id := generateCallbackId()
-
-	Callbacks[callback_id] = OverSocketCallback{element.connection, false, func(...string) {
-		callback()
-	}}
-
-	string_to_send := fmt.Sprintf("$('%s').click(function(){ ws.send(JSON.stringify([\"%s\"])); });", element.selector, callback_id)
-	element.connection.SendMessage(string_to_send)
+	element.zeroArgumentMethodWithCallback("click",callback)
 }
+
+func (element JQuerySelectedElements) Change(callback func()) {
+	element.zeroArgumentMethodWithCallback("change",callback)
+}
+
 
 //TODO refactor function body, not DRY
 func (element JQuerySelectedElements) Keydown(callback func(int)) {
@@ -107,5 +105,16 @@ func (element JQuerySelectedElements) oneArgumentMethod(name string, param strin
 
 func (element JQuerySelectedElements) zeroArgumentMethod(name string) {
 	string_to_send := fmt.Sprintf("$('%s').%s()", element.selector, name)
+	element.connection.SendMessage(string_to_send)
+}
+
+func (element JQuerySelectedElements) zeroArgumentMethodWithCallback(name string, callback func()) {
+	callback_id := generateCallbackId()
+
+	Callbacks[callback_id] = OverSocketCallback{element.connection, false, func(...string) {
+		callback()
+	}}
+
+	string_to_send := fmt.Sprintf("$('%s').%s(function(){ ws.send(JSON.stringify([\"%s\"])); });", element.selector,name, callback_id)
 	element.connection.SendMessage(string_to_send)
 }
