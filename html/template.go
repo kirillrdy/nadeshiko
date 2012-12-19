@@ -4,7 +4,7 @@ import "bytes"
 import "io/ioutil"
 import "html/template"
 
-func Template(name string) string{
+func LoadTemplate(name string) string{
 	content, err := ioutil.ReadFile("template/"+name)
 	if err != nil { panic(err) }
 	return string(content)
@@ -21,5 +21,5 @@ func RenderString(content string, data interface{}) string {
 }
 
 func RenderTemplate(name string, data interface{}) string{
-	return RenderString(Template(name),data)
+	return RenderString(LoadTemplate(name),data)
 }
