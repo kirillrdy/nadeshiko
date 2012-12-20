@@ -15,7 +15,7 @@ func TriggerNotification(notificationType string, notifier func(*Connection)) {
 }
 
 
-func RemoveNotification( connection *Connection ) {
+func CleanupNotification( connection *Connection ) {
 
 	for k, v := range Notifications {
 		var new_list []*Connection

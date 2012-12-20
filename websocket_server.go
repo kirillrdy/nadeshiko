@@ -67,7 +67,7 @@ func websocketServer(ws *websocket.Conn) {
 
 	fmt.Println("Client disconnected")
 
-	RemoveNotification(&connection)
+	CleanupNotification(&connection)
 
 	for callback_id, callbackStruct := range Callbacks {
 		if callbackStruct.connection == &connection {
