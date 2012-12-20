@@ -7,7 +7,7 @@ import "os"
 import "fmt"
 
 func websocketServer(ws *websocket.Conn) {
-	fmt.Printf("New client connection on %#v\n", ws)
+	fmt.Printf("New client connection on %#v\n", &ws)
 
 
 	socket := WebsocketConnection(*ws)
@@ -51,7 +51,9 @@ func websocketServer(ws *websocket.Conn) {
 		if callbackStruct, ok := Callbacks[json_array[0]]; ok {
 			callbackStruct.Callback(json_array...)
 			if callbackStruct.OneTimeOnly {
-				fmt.Printf("Removing one-time callback, curent count %d \n",len(Callbacks))
+				if Verbose {
+					fmt.Printf("Removing one-time callback, curent count %d \n",len(Callbacks))
+				}
 				delete(Callbacks, json_array[0])
 			}
 			if Verbose {
@@ -70,7 +72,9 @@ func websocketServer(ws *websocket.Conn) {
 	for callback_id, callbackStruct := range Callbacks {
 		if callbackStruct.connection == &connection {
 			delete(Callbacks, callback_id)
-			fmt.Printf("Removing callback %s for disconnected client\n",callback_id)
+			if Verbose {
+				fmt.Printf("Removing callback %s for disconnected client\n",callback_id)
+			}
 		}
 	}
 	fmt.Printf("Current callbacks count %d \n",len(Callbacks))

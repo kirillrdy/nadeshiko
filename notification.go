@@ -23,7 +23,7 @@ func RemoveNotification( connection *Connection ) {
 			if a_connection != connection {
 				new_list = append(new_list,a_connection)
 			} else {
-				fmt.Printf("Removing Notification '%s' for client that changed activity %v\n", k, connection)
+				if Verbose { fmt.Printf("Removing Notification '%s' for client that changed activity %v\n", k, connection) }
 			}
 		}
 		Notifications[k] = new_list
