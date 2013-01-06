@@ -5,6 +5,7 @@ import "strconv"
 import "encoding/json"
 import "os"
 import "fmt"
+import "io"
 
 func websocketServer(ws *websocket.Conn) {
 	fmt.Printf("New client connection on %#v\n", &ws)
@@ -33,7 +34,11 @@ func websocketServer(ws *websocket.Conn) {
 		var buf string
 		err := websocket.Message.Receive(ws, &buf)
 		if err != nil {
-			fmt.Printf("ERROR reading from socket: %v \n",err)
+			if err == io.EOF {
+				fmt.Println("Client Disconnected")
+			} else {
+				fmt.Printf("ERROR reading from socket: %v \n",err)
+			}
 			break
 		}
 
@@ -64,8 +69,6 @@ func websocketServer(ws *websocket.Conn) {
 			fmt.Printf("Cant find callback for %s \n",json_array[0])
 		}
 	}
-
-	fmt.Println("Client disconnected")
 
 	CleanupNotification(&connection)
 
