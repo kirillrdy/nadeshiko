@@ -10,7 +10,6 @@ import "io"
 func websocketServer(ws *websocket.Conn) {
 	fmt.Printf("New client connection on %#v\n", &ws)
 
-
 	socket := WebsocketConnection(*ws)
 
 	connection := Connection{websocket: &socket}
@@ -37,7 +36,7 @@ func websocketServer(ws *websocket.Conn) {
 			if err == io.EOF {
 				fmt.Println("Client Disconnected")
 			} else {
-				fmt.Printf("ERROR reading from socket: %v \n",err)
+				fmt.Printf("ERROR reading from socket: %v \n", err)
 			}
 			break
 		}
@@ -48,7 +47,7 @@ func websocketServer(ws *websocket.Conn) {
 		}
 
 		var json_array []string
-		json.Unmarshal([]byte(buf),&json_array)
+		json.Unmarshal([]byte(buf), &json_array)
 
 		//This if statment not really needed,
 		// since websocket.Message.Receive should catch most of errors
@@ -57,16 +56,16 @@ func websocketServer(ws *websocket.Conn) {
 			callbackStruct.Callback(json_array...)
 			if callbackStruct.OneTimeOnly {
 				if Verbose {
-					fmt.Printf("Removing one-time callback, curent count %d \n",len(Callbacks))
+					fmt.Printf("Removing one-time callback, curent count %d \n", len(Callbacks))
 				}
 				delete(Callbacks, json_array[0])
 			}
 			if Verbose {
-				fmt.Printf("Current callbacks count %d \n",len(Callbacks))
+				fmt.Printf("Current callbacks count %d \n", len(Callbacks))
 			}
 
 		} else {
-			fmt.Printf("Cant find callback for %s \n",json_array[0])
+			fmt.Printf("Cant find callback for %s \n", json_array[0])
 		}
 	}
 
@@ -76,11 +75,10 @@ func websocketServer(ws *websocket.Conn) {
 		if callbackStruct.connection == &connection {
 			delete(Callbacks, callback_id)
 			if Verbose {
-				fmt.Printf("Removing callback %s for disconnected client\n",callback_id)
+				fmt.Printf("Removing callback %s for disconnected client\n", callback_id)
 			}
 		}
 	}
-	fmt.Printf("Current callbacks count %d \n",len(Callbacks))
-
+	fmt.Printf("Current callbacks count %d \n", len(Callbacks))
 
 }

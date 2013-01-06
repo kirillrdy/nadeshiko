@@ -7,7 +7,7 @@ import "runtime"
 type WebsocketConnection websocket.Conn
 
 type Connection struct {
-	websocket *WebsocketConnection
+	websocket       *WebsocketConnection
 	currentActivity *Activity
 }
 
@@ -18,10 +18,11 @@ func (connection *Connection) SendMessage(message string) {
 	// This is done to cleanup timers that are not terminated
 	// but will try to send on close sockets
 	// perhaps we can do this when we change activities
-	if err != nil { runtime.Goexit() }
+	if err != nil {
+		runtime.Goexit()
+	}
 
 	if Verbose {
 		fmt.Printf("send: %s\n", message)
 	}
 }
-

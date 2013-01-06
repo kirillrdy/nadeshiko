@@ -10,4 +10,3 @@ func (connection *Connection) SetActivity(activity Activity) {
 	connection.JQuery("body").Empty()
 	activity.Start(connection)
 }
-

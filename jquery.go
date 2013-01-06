@@ -4,9 +4,8 @@ import "fmt"
 import "strconv"
 import "time"
 
-
 type JQuerySelectedElements struct {
-	selector string
+	selector   string
 	connection *Connection
 }
 
@@ -16,11 +15,9 @@ func (connection *Connection) JQuery(selector string) (element JQuerySelectedEle
 	return
 }
 
-
 func (element JQuerySelectedElements) Append(content string) {
-	element.oneArgumentMethod("append",content)
+	element.oneArgumentMethod("append", content)
 }
-
 
 //TODO get rid of this method, and figure out more neat way of chaining jquery methods
 func (element JQuerySelectedElements) PrevRemove() {
@@ -29,19 +26,19 @@ func (element JQuerySelectedElements) PrevRemove() {
 }
 
 func (element JQuerySelectedElements) Before(content string) {
-	element.oneArgumentMethod("before",content)
+	element.oneArgumentMethod("before", content)
 }
 
 func (element JQuerySelectedElements) PrependString(content string) {
-	element.oneArgumentMethod("prepend",content)
+	element.oneArgumentMethod("prepend", content)
 }
 
 func (element JQuerySelectedElements) SetVal(new_value string) {
-	element.oneArgumentMethod("val",new_value)
+	element.oneArgumentMethod("val", new_value)
 }
 
 func (element JQuerySelectedElements) SetText(new_value string) {
-	element.oneArgumentMethod("text",new_value)
+	element.oneArgumentMethod("text", new_value)
 }
 
 func (element JQuerySelectedElements) Empty() {
@@ -52,15 +49,13 @@ func (element JQuerySelectedElements) Remove() {
 	element.zeroArgumentMethod("remove")
 }
 
-
 func (element JQuerySelectedElements) Click(callback func()) {
-	element.zeroArgumentMethodWithCallback("click",callback)
+	element.zeroArgumentMethodWithCallback("click", callback)
 }
 
 func (element JQuerySelectedElements) Change(callback func()) {
-	element.zeroArgumentMethodWithCallback("change",callback)
+	element.zeroArgumentMethodWithCallback("change", callback)
 }
-
 
 //TODO refactor function body, not DRY
 func (element JQuerySelectedElements) Keydown(callback func(int)) {
@@ -79,7 +74,7 @@ func (element JQuerySelectedElements) Keydown(callback func(int)) {
 func (element JQuerySelectedElements) GetVal(callback func(string)) {
 	random_string := generateCallbackId()
 
-	Callbacks[random_string] = OverSocketCallback{element.connection, true, func(vals ...string){
+	Callbacks[random_string] = OverSocketCallback{element.connection, true, func(vals ...string) {
 		callback(vals[1])
 	}}
 
@@ -94,7 +89,7 @@ func generateCallbackId() string {
 	now := time.Now()
 	//TODO get better way of generating uniq number
 	random_number := now.UnixNano()
-	return fmt.Sprintf("%x",random_number)
+	return fmt.Sprintf("%x", random_number)
 }
 
 func (element JQuerySelectedElements) oneArgumentMethod(name string, param string) {
@@ -115,6 +110,6 @@ func (element JQuerySelectedElements) zeroArgumentMethodWithCallback(name string
 		callback()
 	}}
 
-	string_to_send := fmt.Sprintf("$('%s').%s(function(){ ws.send(JSON.stringify([\"%s\"])); });", element.selector,name, callback_id)
+	string_to_send := fmt.Sprintf("$('%s').%s(function(){ ws.send(JSON.stringify([\"%s\"])); });", element.selector, name, callback_id)
 	element.connection.SendMessage(string_to_send)
 }
