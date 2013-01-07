@@ -5,8 +5,7 @@ type Activity interface {
 }
 
 func (connection *Connection) StartActivity(activity Activity) {
-	//TODO make to be via channel
-	CleanupNotification(connection)
+	CleanupNotification <- connection
 	connection.JQuery("body").Empty()
 	activity.Start(connection)
 }

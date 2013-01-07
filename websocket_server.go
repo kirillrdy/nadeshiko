@@ -57,7 +57,7 @@ func websocketServer(ws *websocket.Conn) {
 		}
 	}
 
-	CleanupNotification(&connection)
+	CleanupNotification <- &connection
 
 	// NEEDs to be thread safe move to channel
 	for callback_id, callbackStruct := range Callbacks {

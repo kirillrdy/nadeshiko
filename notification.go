@@ -3,6 +3,8 @@ package nadeshiko
 import "log"
 
 var Notifications map[string][]*Connection
+var CleanupNotification = make(chan *Connection)
+
 
 func ListenNotification(notificationType string, connection *Connection) {
 	Notifications[notificationType] = append(Notifications[notificationType], connection)
@@ -14,8 +16,8 @@ func TriggerNotification(notificationType string, notifier func(*Connection)) {
 	}
 }
 
-// This should be unexported function and have a channel
-func CleanupNotification(connection *Connection) {
+
+func cleanupNotification(connection *Connection) {
 
 	for k, v := range Notifications {
 		var new_list []*Connection
@@ -24,10 +26,19 @@ func CleanupNotification(connection *Connection) {
 				new_list = append(new_list, a_connection)
 			} else {
 				if Verbose {
-					log.Printf("Removing Notification '%s' for client that changed activity %v\n", k, connection)
+					log.Printf("Removing Notification '%s' for client %v\n", k, connection)
 				}
 			}
 		}
 		Notifications[k] = new_list
 	}
+}
+
+
+func init() {
+	go func() {
+		for connection := range CleanupNotification {
+			cleanupNotification(connection)
+		}
+	}()
 }
