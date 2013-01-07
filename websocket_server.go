@@ -3,7 +3,7 @@ package nadeshiko
 import "code.google.com/p/go.net/websocket"
 import "strconv"
 import "encoding/json"
-import "fmt"
+import "log"
 import "io"
 
 func websocketServer(ws *websocket.Conn) {
