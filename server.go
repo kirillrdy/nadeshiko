@@ -18,17 +18,16 @@ type OverSocketCallback struct {
 var Callbacks map[string]OverSocketCallback
 var Verbose bool
 
-// Serves base.html, thin html client
 func fileServer(w http.ResponseWriter, req *http.Request) {
-	fmt.Printf("\n\n============================================\n")
+	log.Printf("\n\n============================================\n")
 	requested_path := req.RequestURI
 
 	if requested_path == "/" {
 		requested_path = "/base.html"
 	}
 
-	fmt.Printf("GET: %q \n", requested_path)
-	fmt.Printf("User-Agent: %s \n", req.Header["User-Agent"])
+	log.Printf("GET: %q \n", requested_path)
+	log.Printf("User-Agent: %s \n", req.Header["User-Agent"])
 
 	w.Header().Set("Server", "Nadeshiko "+NADESHIKO_VERSION)
 
@@ -48,12 +47,12 @@ func Start(activity Activity, port int, verbose bool) {
 	http.Handle("/websocket_client", websocket.Handler(websocketServer))
 	http.HandleFunc("/", fileServer)
 
-	fmt.Println("Started Nadeshiko Server " + NADESHIKO_VERSION)
-	fmt.Printf("Listening http://localhost:%d/\n", port)
+	log.Println("Started Nadeshiko Server " + NADESHIKO_VERSION)
+	log.Printf("Listening http://localhost:%d/\n", port)
 
 	listenOn := fmt.Sprintf(":%d", port)
 	err := http.ListenAndServe(listenOn, nil)
 	if err != nil {
-		panic("ListenAndServe: " + err.Error())
+		log.Fatalln("ListenAndServe: " + err.Error())
 	}
 }

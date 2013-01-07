@@ -1,6 +1,6 @@
 package nadeshiko
 
-import "fmt"
+import "log"
 
 var Notifications map[string][]*Connection
 
@@ -23,7 +23,7 @@ func CleanupNotification(connection *Connection) {
 				new_list = append(new_list, a_connection)
 			} else {
 				if Verbose {
-					fmt.Printf("Removing Notification '%s' for client that changed activity %v\n", k, connection)
+					log.Printf("Removing Notification '%s' for client that changed activity %v\n", k, connection)
 				}
 			}
 		}

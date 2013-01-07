@@ -25,6 +25,6 @@ func (connection *Connection) SendMessage(message string) {
 	}
 
 	if Verbose {
-		fmt.Printf("send: %s\n", message)
+		log.Printf("send: %s\n", message)
 	}
 }

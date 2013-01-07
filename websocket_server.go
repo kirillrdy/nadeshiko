@@ -3,22 +3,14 @@ package nadeshiko
 import "code.google.com/p/go.net/websocket"
 import "strconv"
 import "encoding/json"
-import "os"
 import "fmt"
 import "io"
 
 func websocketServer(ws *websocket.Conn) {
-	fmt.Printf("New client connection on %#v\n", &ws)
+	log.Printf("New client connection on %#v\n", &ws)
 
 	socket := WebsocketConnection(*ws)
-
 	connection := Connection{websocket: &socket}
-
-	//TODO check for DefaultActivity being set
-	if DefaultActivity == nil {
-		panic("Need to set DefaultActivity")
-		os.Exit(1)
-	}
 
 	DefaultActivity.Start(&connection)
 
@@ -34,16 +26,16 @@ func websocketServer(ws *websocket.Conn) {
 		err := websocket.Message.Receive(ws, &buf)
 		if err != nil {
 			if err == io.EOF {
-				fmt.Println("Client Disconnected")
+				log.Println("Client Disconnected")
 			} else {
-				fmt.Printf("ERROR reading from socket: %v \n", err)
+				log.Printf("ERROR reading from socket: %v \n", err)
 			}
 			break
 		}
 
 		if Verbose {
 			quoted_contet := strconv.Quote(buf)
-			fmt.Printf("received: %s\n", quoted_contet)
+			log.Printf("received: %s\n", quoted_contet)
 		}
 
 		var json_array []string
@@ -56,16 +48,16 @@ func websocketServer(ws *websocket.Conn) {
 			callbackStruct.Callback(json_array...)
 			if callbackStruct.OneTimeOnly {
 				if Verbose {
-					fmt.Printf("Removing one-time callback, curent count %d \n", len(Callbacks))
+					log.Printf("Removing one-time callback, curent count %d \n", len(Callbacks))
 				}
 				delete(Callbacks, json_array[0])
 			}
 			if Verbose {
-				fmt.Printf("Current callbacks count %d \n", len(Callbacks))
+				log.Printf("Current callbacks count %d \n", len(Callbacks))
 			}
 
 		} else {
-			fmt.Printf("Cant find callback for %s \n", json_array[0])
+			log.Printf("Cant find callback for %s \n", json_array[0])
 		}
 	}
 
@@ -75,10 +67,10 @@ func websocketServer(ws *websocket.Conn) {
 		if callbackStruct.connection == &connection {
 			delete(Callbacks, callback_id)
 			if Verbose {
-				fmt.Printf("Removing callback %s for disconnected client\n", callback_id)
+				log.Printf("Removing callback %s for disconnected client\n", callback_id)
 			}
 		}
 	}
-	fmt.Printf("Current callbacks count %d \n", len(Callbacks))
+	log.Printf("Current callbacks count %d \n", len(Callbacks))
 
 }
