@@ -1,10 +1,12 @@
 package nadeshiko
 
-import "code.google.com/p/go.net/websocket"
-import "strconv"
-import "encoding/json"
-import "log"
-import "io"
+import (
+	"code.google.com/p/go.net/websocket"
+	"strconv"
+	"encoding/json"
+	"log"
+	"io"
+)
 
 func websocketServer(ws *websocket.Conn) {
 	log.Printf("New client connection on %#v\n", &ws)
@@ -14,12 +16,6 @@ func websocketServer(ws *websocket.Conn) {
 
 	DefaultActivity.Start(&connection)
 
-	//TODO fix this testing thing
-	//if *test_env {
-	//	go func(){
-	//		ApplicationTest(j)
-	//	}()
-	//}
 
 	for {
 		var buf string

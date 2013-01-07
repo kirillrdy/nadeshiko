@@ -1,8 +1,10 @@
 package html
 
-import "bytes"
-import "io/ioutil"
-import "html/template"
+import (
+	"bytes"
+	"io/ioutil"
+	"html/template"
+)
 
 func LoadTemplate(name string) string{
 	content, err := ioutil.ReadFile("template/"+name)
