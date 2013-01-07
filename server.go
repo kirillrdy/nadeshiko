@@ -1,8 +1,6 @@
 package nadeshiko
 
 import (
-	"code.google.com/p/go.net/websocket"
-	"fmt"
 	"log"
 	"net/http"
 )
@@ -19,7 +17,7 @@ var Callbacks map[string]OverSocketCallback
 var Verbose bool
 
 func fileServer(w http.ResponseWriter, req *http.Request) {
-	log.Printf("\n\n============================================\n")
+	log.Printf("=======================================================\n")
 	requested_path := req.RequestURI
 
 	if requested_path == "/" {
@@ -35,24 +33,4 @@ func fileServer(w http.ResponseWriter, req *http.Request) {
 
 }
 
-func Start(activity Activity, port int, verbose bool) {
 
-	DefaultActivity = activity
-
-	//TODO Perhaps we dont need to export these
-	Callbacks = make(map[string]OverSocketCallback)
-	Notifications = make(map[string][]*Connection)
-	Verbose = verbose
-
-	http.Handle("/websocket_client", websocket.Handler(websocketServer))
-	http.HandleFunc("/", fileServer)
-
-	log.Println("Started Nadeshiko Server " + NADESHIKO_VERSION)
-	log.Printf("Listening http://localhost:%d/\n", port)
-
-	listenOn := fmt.Sprintf(":%d", port)
-	err := http.ListenAndServe(listenOn, nil)
-	if err != nil {
-		log.Fatalln("ListenAndServe: " + err.Error())
-	}
-}
