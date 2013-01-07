@@ -59,6 +59,7 @@ func websocketServer(ws *websocket.Conn) {
 
 	CleanupNotification(&connection)
 
+	// NEEDs to be thread safe move to channel
 	for callback_id, callbackStruct := range Callbacks {
 		if callbackStruct.connection == &connection {
 			delete(Callbacks, callback_id)

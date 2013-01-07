@@ -14,6 +14,7 @@ func TriggerNotification(notificationType string, notifier func(*Connection)) {
 	}
 }
 
+// This should be unexported function and have a channel
 func CleanupNotification(connection *Connection) {
 
 	for k, v := range Notifications {
