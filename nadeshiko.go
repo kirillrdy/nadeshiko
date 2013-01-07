@@ -14,11 +14,7 @@ func Start(activity Activity, port int, verbose bool) {
 
 	DefaultActivity = activity
 
-	//TODO Perhaps we dont need to export these
-	// Since applications should not directly touch those
-	// only via some api
-	Callbacks = make(map[string]OverSocketCallback)
-	Notifications = make(map[string][]*Connection)
+
 	Verbose = verbose
 
 	http.Handle("/websocket_client", websocket.Handler(websocketServer))

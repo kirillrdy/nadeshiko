@@ -2,7 +2,12 @@ package nadeshiko
 
 import "log"
 
-var Notifications map[string][]*Connection
+//TODO Perhaps we dont need to export these
+// Since applications should not directly touch those
+// only via some api
+var Notifications = make(map[string][]*Connection)
+
+
 var CleanupNotification = make(chan *Connection)
 
 

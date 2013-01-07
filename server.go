@@ -13,7 +13,11 @@ type OverSocketCallback struct {
 	Callback    func(...string)
 }
 
-var Callbacks map[string]OverSocketCallback
+//TODO Perhaps we dont need to export these
+// Since applications should not directly touch those
+// only via some api
+var Callbacks = make(map[string]OverSocketCallback)
+
 var Verbose bool
 
 func fileServer(w http.ResponseWriter, req *http.Request) {
