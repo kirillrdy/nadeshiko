@@ -1,8 +1,10 @@
 package nadeshiko
 
-import "fmt"
-import "strconv"
-import "time"
+import (
+	"fmt"
+	"strconv"
+	"time"
+)
 
 type JQuerySelectedElements struct {
 	selector   string

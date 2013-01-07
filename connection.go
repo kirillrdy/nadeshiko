@@ -1,8 +1,10 @@
 package nadeshiko
 
-import "code.google.com/p/go.net/websocket"
-import "fmt"
-import "runtime"
+import (
+	"code.google.com/p/go.net/websocket"
+	"log"
+	"runtime"
+)
 
 type WebsocketConnection websocket.Conn
 

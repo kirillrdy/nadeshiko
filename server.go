@@ -3,8 +3,7 @@ package nadeshiko
 import (
 	"code.google.com/p/go.net/websocket"
 	"fmt"
-	//"io"
-	//"io/ioutil"
+	"log"
 	"net/http"
 )
 
