@@ -37,7 +37,9 @@ func fileServer(w http.ResponseWriter, req *http.Request) {
 
 }
 
-func Start(port int, verbose bool) {
+func Start(activity Activity, port int, verbose bool) {
+
+	DefaultActivity = activity
 
 	//TODO Perhaps we dont need to export these
 	Callbacks = make(map[string]OverSocketCallback)
