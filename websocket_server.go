@@ -22,7 +22,7 @@ func websocketServer(ws *websocket.Conn) {
 	for {
 		var buf string
 
-		//Consider using JSON codec for websocket
+		//TODO Consider using JSON codec for websocket
 		err := websocket.Message.Receive(ws, &buf)
 		if err != nil {
 			if err == io.EOF {
