@@ -7,16 +7,7 @@ import (
 
 const NADESHIKO_VERSION = "0.1.0"
 
-type OverSocketCallback struct {
-	connection  *Connection
-	OneTimeOnly bool
-	Callback    func(...string)
-}
 
-//TODO Perhaps we dont need to export these
-// Since applications should not directly touch those
-// only via some api
-var Callbacks = make(map[string]OverSocketCallback)
 
 var Verbose bool
 
