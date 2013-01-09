@@ -64,7 +64,7 @@ func (element JQuerySelectedElements) Keydown(callback func(int)) {
 
 	callback_id := generateCallbackId()
 
-	Callbacks[callback_id] = OverSocketCallback{element.connection, false, func(vals ...string) {
+	callbacks[callback_id] = overSocketCallback{element.connection, false, func(vals ...string) {
 		key, _ := strconv.Atoi(vals[1])
 		callback(key)
 	}}
@@ -76,7 +76,7 @@ func (element JQuerySelectedElements) Keydown(callback func(int)) {
 func (element JQuerySelectedElements) GetVal(callback func(string)) {
 	random_string := generateCallbackId()
 
-	Callbacks[random_string] = OverSocketCallback{element.connection, true, func(vals ...string) {
+	callbacks[random_string] = overSocketCallback{element.connection, true, func(vals ...string) {
 		callback(vals[1])
 	}}
 
@@ -108,7 +108,7 @@ func (element JQuerySelectedElements) zeroArgumentMethod(name string) {
 func (element JQuerySelectedElements) zeroArgumentMethodWithCallback(name string, callback func()) {
 	callback_id := generateCallbackId()
 
-	Callbacks[callback_id] = OverSocketCallback{element.connection, false, func(...string) {
+	callbacks[callback_id] = overSocketCallback{element.connection, false, func(...string) {
 		callback()
 	}}
 

@@ -9,7 +9,7 @@ func (connection *Connection) SetLocalStorageItem(key, val string) {
 
 func (connection *Connection) GetLocalStorageItem(key string, callback func(string)) {
 	random_string := generateCallbackId()
-	Callbacks[random_string] = OverSocketCallback{connection, true, func(vals ...string) {
+	callbacks[random_string] = overSocketCallback{connection, true, func(vals ...string) {
 		callback(vals[1])
 	}}
 
