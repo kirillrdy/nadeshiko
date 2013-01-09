@@ -2,21 +2,18 @@ package nadeshiko
 
 import "log"
 
-//TODO Perhaps we dont need to export these
-// Since applications should not directly touch those
-// only via some api
-var Notifications = make(map[string][]*Connection)
+var notifications = make(map[string][]*Connection)
 
 
 var CleanupNotification = make(chan *Connection)
 
 
 func ListenNotification(notificationType string, connection *Connection) {
-	Notifications[notificationType] = append(Notifications[notificationType], connection)
+	notifications[notificationType] = append(notifications[notificationType], connection)
 }
 
 func TriggerNotification(notificationType string, notifier func(*Connection)) {
-	for _, j := range Notifications[notificationType] {
+	for _, j := range notifications[notificationType] {
 		notifier(j)
 	}
 }
@@ -24,7 +21,7 @@ func TriggerNotification(notificationType string, notifier func(*Connection)) {
 
 func cleanupNotification(connection *Connection) {
 
-	for k, v := range Notifications {
+	for k, v := range notifications {
 		var new_list []*Connection
 		for _, a_connection := range v {
 			if a_connection != connection {
@@ -35,7 +32,7 @@ func cleanupNotification(connection *Connection) {
 				}
 			}
 		}
-		Notifications[k] = new_list
+		notifications[k] = new_list
 	}
 }
 
