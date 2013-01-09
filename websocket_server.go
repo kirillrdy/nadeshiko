@@ -8,13 +8,7 @@ import (
 	"io"
 )
 
-type overSocketCallback struct {
-	connection  *Connection
-	oneTimeOnly bool
-	callback    func(...string)
-}
 
-var callbacks = make(map[string]overSocketCallback)
 
 func websocketServer(ws *websocket.Conn) {
 	log.Printf("New client connection on %#v\n", &ws)
@@ -27,6 +21,8 @@ func websocketServer(ws *websocket.Conn) {
 
 	for {
 		var buf string
+
+		//Consider using JSON codec for websocket
 		err := websocket.Message.Receive(ws, &buf)
 		if err != nil {
 			if err == io.EOF {
@@ -45,16 +41,13 @@ func websocketServer(ws *websocket.Conn) {
 		var json_array []string
 		json.Unmarshal([]byte(buf), &json_array)
 
-		//This if statment not really needed,
-		// since websocket.Message.Receive should catch most of errors
-		// but good to keep for debugging
 		if callbackStruct, ok := callbacks[json_array[0]]; ok {
 			callbackStruct.callback(json_array...)
 			if callbackStruct.oneTimeOnly {
 				if Verbose {
-					log.Printf("Removing one-time callback, curent count %d \n", len(callbacks))
+					log.Printf("Removing one-time callback \n")
 				}
-				delete(callbacks, json_array[0])
+				deleteCallback <- json_array[0]
 			}
 			if Verbose {
 				log.Printf("Current callbacks count %d \n", len(callbacks))
@@ -67,13 +60,12 @@ func websocketServer(ws *websocket.Conn) {
 
 	CleanupNotification <- &connection
 
-	// NEEDs to be thread safe move to channel
 	for callback_id, callbackStruct := range callbacks {
 		if callbackStruct.connection == &connection {
-			delete(callbacks, callback_id)
 			if Verbose {
 				log.Printf("Removing callback %s for disconnected client\n", callback_id)
 			}
+			deleteCallback <- callback_id
 		}
 	}
 	log.Printf("Current callbacks count %d \n", len(callbacks))
