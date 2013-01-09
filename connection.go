@@ -10,7 +10,6 @@ type WebsocketConnection websocket.Conn
 
 type Connection struct {
 	websocket       *WebsocketConnection
-	currentActivity *Activity
 }
 
 func (connection *Connection) SendMessage(message string) {
