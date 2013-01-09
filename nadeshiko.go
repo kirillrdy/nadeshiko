@@ -19,10 +19,12 @@ func Start(activity Activity, port int, verbose bool) {
 	http.HandleFunc("/", fileServer)
 
 	listenOn := fmt.Sprintf(":%d", port)
+
+	log.Printf("Listening http://localhost:%d/\n", port)
 	err := http.ListenAndServe(listenOn, nil)
 	if err != nil {
 		log.Fatalln("ListenAndServe: " + err.Error())
 	}
 
-	log.Printf("Listening http://localhost:%d/\n", port)
+
 }
