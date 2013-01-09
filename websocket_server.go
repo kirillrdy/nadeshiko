@@ -58,7 +58,7 @@ func websocketServer(ws *websocket.Conn) {
 		}
 	}
 
-	CleanupNotification <- &connection
+	CleanupEventHandlers <- &connection
 
 	for callback_id, callbackStruct := range callbacks {
 		if callbackStruct.connection == &connection {

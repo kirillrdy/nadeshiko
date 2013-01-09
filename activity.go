@@ -5,7 +5,7 @@ type Activity interface {
 }
 
 func (connection *Connection) StartActivity(activity Activity) {
-	CleanupNotification <- connection
+	CleanupEventHandlers <- connection
 	connection.JQuery("body").Empty()
 	activity.Start(connection)
 }
