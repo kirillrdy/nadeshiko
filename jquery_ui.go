@@ -1,7 +1,5 @@
 package nadeshiko
 
-import "fmt"
-
 func (element JQuerySelectedElements) Draggable() {
 	element.zeroArgumentMethod("draggable")
 }
