@@ -20,7 +20,9 @@ func (connection *Connection) SendMessage(message string) {
 	// but will try to send on close sockets
 	// perhaps we can do this when we change activities
 	if err != nil {
+		log.Printf("runtime.Goexit '%s'\n", err)
 		runtime.Goexit()
+
 	}
 
 	if Verbose {
