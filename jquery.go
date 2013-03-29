@@ -94,6 +94,13 @@ func generateCallbackId() string {
 	return fmt.Sprintf("%x", random_number)
 }
 
+func (element JQuerySelectedElements) twoArgumentMethod(name,  param1, param2 string) {
+	quoted1 := strconv.Quote(param1)
+	quoted2 := strconv.Quote(param2)
+	string_to_send := fmt.Sprintf("$('%s').%s(%s,%s)", element.selector, name, quoted1, quoted2)
+	element.connection.SendMessage(string_to_send)
+}
+
 func (element JQuerySelectedElements) oneArgumentMethod(name string, param string) {
 	string_content := strconv.Quote(param)
 	string_to_send := fmt.Sprintf("$('%s').%s(%s)", element.selector, name, string_content)
