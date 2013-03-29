@@ -39,6 +39,10 @@ func (element JQuerySelectedElements) SetVal(new_value string) {
 	element.oneArgumentMethod("val", new_value)
 }
 
+func (element JQuerySelectedElements) SetAttr(attr, new_value string) {
+	element.twoArgumentMethod("attr", attr, new_value)
+}
+
 func (element JQuerySelectedElements) SetText(new_value string) {
 	element.oneArgumentMethod("text", new_value)
 }
