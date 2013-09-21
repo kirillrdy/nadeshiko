@@ -9,8 +9,7 @@ import (
 
 var DefaultActivity Activity
 
-func Start(activity Activity, port int, verbose bool) {
-
+func StartWithPortVerbose(activity Activity, port int, verbose bool) {
 	DefaultActivity = activity
 	Verbose = verbose
 
@@ -26,5 +25,12 @@ func Start(activity Activity, port int, verbose bool) {
 		log.Fatalln("ListenAndServe: " + err.Error())
 	}
 
+}
 
+func StatWithPort(activity Activity, port int) {
+	StartWithPortVerbose(activity, port, false)
+}
+
+func Start(activity Activity) {
+	StartWithPortVerbose(activity, 3000, false)
 }
