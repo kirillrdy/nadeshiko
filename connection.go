@@ -19,6 +19,7 @@ func (connection *Connection) SendMessage(message string) {
 	// This is done to cleanup timers that are not terminated
 	// but will try to send on close sockets
 	// perhaps we can do this when we change activities
+	//TODO handle errors other than send on closed connection
 	if err != nil {
 		log.Printf("runtime.Goexit '%s'\n", err)
 		runtime.Goexit()
