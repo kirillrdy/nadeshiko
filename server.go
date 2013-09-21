@@ -22,7 +22,7 @@ func fileServer(w http.ResponseWriter, req *http.Request) {
 	log.Printf("GET: %q \n", requested_path)
 	log.Printf("User-Agent: %s \n\n", req.Header["User-Agent"])
 
-	w.Header().Set("Server", "Nadeshiko "+NADESHIKO_VERSION)
+	w.Header().Set("Server", "Nadeshiko " + NADESHIKO_VERSION)
 
 	http.ServeFile(w, req, "public"+requested_path)
 
