@@ -13,7 +13,7 @@ func fileServer(w http.ResponseWriter, req *http.Request) {
 	requested_path := req.RequestURI
 
 	if requested_path == "/" {
-		requested_path = "/base.html"
+		requested_path = "/index.html"
 	}
 
 	log.Printf("GET: %q \n", requested_path)
