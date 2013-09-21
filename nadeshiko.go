@@ -7,6 +7,8 @@ import (
 	"fmt"
 )
 
+const NADESHIKO_VERSION = "0.1.0"
+
 var DefaultActivity Activity
 
 func StartWithPortVerbose(activity Activity, port int, verbose bool) {
@@ -14,7 +16,7 @@ func StartWithPortVerbose(activity Activity, port int, verbose bool) {
 	Verbose = verbose
 
 	log.Println("Starting Nadeshiko Server " + NADESHIKO_VERSION)
-	http.Handle("/websocket_client", websocket.Handler(websocketServer))
+	http.Handle("/nadeshiko_socket", websocket.Handler(websocketServer))
 	http.HandleFunc("/", fileServer)
 
 	listenOn := fmt.Sprintf(":%d", port)
