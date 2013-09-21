@@ -5,9 +5,6 @@ import (
 	"net/http"
 )
 
-const NADESHIKO_VERSION = "0.1.0"
-
-
 
 var Verbose bool
 
@@ -24,8 +21,7 @@ func fileServer(w http.ResponseWriter, req *http.Request) {
 
 	w.Header().Set("Server", "Nadeshiko " + NADESHIKO_VERSION)
 
-	http.ServeFile(w, req, "public"+requested_path)
+	//TODO check nadeshiko bundle public and then serve from local public is availible
+	http.ServeFile(w, req, "nadeshiko/public" + requested_path)
 
 }
-
-
