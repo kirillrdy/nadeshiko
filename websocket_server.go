@@ -11,7 +11,7 @@ import (
 
 
 func websocketServer(ws *websocket.Conn) {
-	log.Printf("New client connection on %#v\n", &ws)
+	log.Printf("New client connection\n")
 
 	socket := WebsocketConnection(*ws)
 	connection := Connection{websocket: &socket}
@@ -68,6 +68,8 @@ func websocketServer(ws *websocket.Conn) {
 			deleteCallback <- callback_id
 		}
 	}
-	log.Printf("Current callbacks count %d \n", len(callbacks))
 
+	if Verbose {
+		log.Printf("Current callbacks count %d \n", len(callbacks))
+	}
 }
