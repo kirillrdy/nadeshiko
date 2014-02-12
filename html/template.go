@@ -4,10 +4,16 @@ import (
 	"bytes"
 	"io/ioutil"
 	"html/template"
+	"runtime"
+	"path"
 )
 
 func LoadTemplate(name string) string{
-	content, err := ioutil.ReadFile("template/"+name)
+	_, caller_file_name, _, _ := runtime.Caller(1)
+	dir := path.Dir(caller_file_name)
+
+	path := path.Join(dir,"template/", name)
+	content, err := ioutil.ReadFile(path)
 	if err != nil { panic(err) }
 	return string(content)
 }
