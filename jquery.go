@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"strconv"
 	"time"
+	"io/ioutil"
 )
 
 type JQuerySelectedElements struct {
@@ -15,6 +16,11 @@ func (connection *Connection) JQuery(selector string) (element JQuerySelectedEle
 	element.selector = selector
 	element.connection = connection
 	return
+}
+
+func (element JQuerySelectedElements) Write(content []byte) (int, error) {
+	element.Append(string(content))
+	return len(content), nil
 }
 
 func (element JQuerySelectedElements) Append(content string) {
@@ -88,6 +94,11 @@ func (element JQuerySelectedElements) GetVal(callback func(string)) {
 	element.connection.SendMessage(string_to_send)
 }
 
+func (element JQuerySelectedElements) LoadHtmlFile(filename string) {
+	data, err := ioutil.ReadFile(filename)
+	if err != nil { panic(err)}
+	element.Append(string(data))
+}
 ////////////////////////////////////////////////////////////////////////////////////
 // Unexported functions go here
 
