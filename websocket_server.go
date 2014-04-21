@@ -43,7 +43,7 @@ func websocketServer(ws *websocket.Conn) {
 
 		if callbackStruct, ok := callbacks[json_array[0]]; ok {
 			callbackStruct.callback(json_array...)
-			if callbackStruct.oneTimeOnly {
+			if callbackStruct.oneTime {
 				if Verbose {
 					log.Printf("Removing one-time callback \n")
 				}

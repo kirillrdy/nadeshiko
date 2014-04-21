@@ -1,10 +1,9 @@
 package nadeshiko
 
-
 type overSocketCallback struct {
-	connection  *Connection
-	oneTimeOnly bool
-	callback    func(...string)
+	connection *Connection
+	oneTime    bool
+	callback   func(...string)
 }
 
 var callbacks = make(map[string]overSocketCallback)
