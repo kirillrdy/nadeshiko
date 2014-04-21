@@ -2,9 +2,9 @@ package nadeshiko
 
 import (
 	"fmt"
+	"io/ioutil"
 	"strconv"
 	"time"
-	"io/ioutil"
 )
 
 type JQuerySelectedElements struct {
@@ -70,6 +70,20 @@ func (element JQuerySelectedElements) Change(callback func()) {
 }
 
 //TODO refactor function body, not DRY
+func (element JQuerySelectedElements) Keypress(callback func(int)) {
+
+	callback_id := generateCallbackId()
+
+	callbacks[callback_id] = overSocketCallback{element.connection, false, func(vals ...string) {
+		key, _ := strconv.Atoi(vals[1])
+		callback(key)
+	}}
+
+	string_to_send := fmt.Sprintf("$('%s').keypress(function(event){ ws.send(JSON.stringify([\"%s\",event.charCode.toString()])); });", element.selector, callback_id)
+	element.connection.SendMessage(string_to_send)
+}
+
+//TODO refactor function body, not DRY
 func (element JQuerySelectedElements) Keydown(callback func(int)) {
 
 	callback_id := generateCallbackId()
@@ -96,9 +110,12 @@ func (element JQuerySelectedElements) GetVal(callback func(string)) {
 
 func (element JQuerySelectedElements) LoadHtmlFile(filename string) {
 	data, err := ioutil.ReadFile(filename)
-	if err != nil { panic(err)}
+	if err != nil {
+		panic(err)
+	}
 	element.Append(string(data))
 }
+
 ////////////////////////////////////////////////////////////////////////////////////
 // Unexported functions go here
 
@@ -109,7 +126,7 @@ func generateCallbackId() string {
 	return fmt.Sprintf("%x", random_number)
 }
 
-func (element JQuerySelectedElements) twoArgumentMethod(name,  param1, param2 string) {
+func (element JQuerySelectedElements) twoArgumentMethod(name, param1, param2 string) {
 	quoted1 := strconv.Quote(param1)
 	quoted2 := strconv.Quote(param2)
 	string_to_send := fmt.Sprintf("$('%s').%s(%s,%s)", element.selector, name, quoted1, quoted2)
