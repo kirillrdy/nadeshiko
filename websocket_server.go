@@ -1,14 +1,13 @@
 package nadeshiko
 
 import (
-	"code.google.com/p/go.net/websocket"
-	"strconv"
 	"encoding/json"
-	"log"
 	"io"
+	"log"
+	"strconv"
+
+	"code.google.com/p/go.net/websocket"
 )
-
-
 
 func websocketServer(ws *websocket.Conn) {
 	log.Printf("New client connection\n")
@@ -17,7 +16,6 @@ func websocketServer(ws *websocket.Conn) {
 	connection := Connection{websocket: &socket}
 
 	DefaultActivity.Start(&connection)
-
 
 	for {
 		var buf string
@@ -54,7 +52,7 @@ func websocketServer(ws *websocket.Conn) {
 			}
 
 		} else {
-			log.Printf("Cant find callback for %s \n", json_array[0])
+			log.Printf("Can't find callback for %s \n", json_array[0])
 		}
 	}
 
