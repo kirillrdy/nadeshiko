@@ -17,7 +17,9 @@ func startWithPortVerbose(routes Routes, port int, verbose bool) {
 	Verbose = verbose
 
 	log.Println("Starting Nadeshiko Server " + NADESHIKO_VERSION)
-	http.Handle("/nadeshiko_socket", websocket.Handler(websocketServer))
+
+	//TODO hack, to restore our websocket handler
+	routes.Get("/nadeshiko_socket", websocket.Handler(websocketServer).ServeHTTP)
 
 	listenOn := fmt.Sprintf(":%d", port)
 
