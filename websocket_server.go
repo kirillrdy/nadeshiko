@@ -24,7 +24,7 @@ func websocketServer(ws *websocket.Conn) {
 		err := websocket.Message.Receive(ws, &buf)
 		if err != nil {
 			if err == io.EOF {
-				log.Println("Client Disconnected")
+				log.Println("Webscoket client disconnected")
 			} else {
 				log.Printf("ERROR reading from socket: %v \n", err)
 			}
