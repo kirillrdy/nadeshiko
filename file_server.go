@@ -3,19 +3,19 @@ package nadeshiko
 import (
 	"log"
 	"net/http"
-	"runtime"
 	"path"
+	"runtime"
 )
-
 
 var Verbose bool
 
 func fileServer(w http.ResponseWriter, req *http.Request) {
+	requested_path := req.RequestURI
+
 	if Verbose {
 		log.Printf("=======================================================\n")
+		log.Println("Serving static content: " + requested_path)
 	}
-
-	requested_path := req.RequestURI
 
 	if requested_path == "/" {
 		requested_path = "/index.html"
@@ -26,11 +26,11 @@ func fileServer(w http.ResponseWriter, req *http.Request) {
 		log.Printf("User-Agent: %s \n\n", req.Header["User-Agent"])
 	}
 
-	w.Header().Set("Server", "Nadeshiko " + NADESHIKO_VERSION)
+	w.Header().Set("Server", "Nadeshiko "+NADESHIKO_VERSION)
 
 	//TODO check nadeshiko bundle public and then serve from local public is availible
 	_, current_file, _, _ := runtime.Caller(0)
 	package_dir := path.Dir(current_file)
-	http.ServeFile(w, req, package_dir +"/public" + requested_path)
+	http.ServeFile(w, req, package_dir+"/public"+requested_path)
 
 }
