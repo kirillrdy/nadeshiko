@@ -28,9 +28,14 @@ func fileServer(w http.ResponseWriter, req *http.Request) {
 
 	w.Header().Set("Server", "Nadeshiko "+NADESHIKO_VERSION)
 
+	http.ServeFile(w, req, nadeshikoPublicDir()+requested_path)
+
+}
+
+func nadeshikoPublicDir() string {
+
 	//TODO check nadeshiko bundle public and then serve from local public is availible
 	_, current_file, _, _ := runtime.Caller(0)
 	package_dir := path.Dir(current_file)
-	http.ServeFile(w, req, package_dir+"/public"+requested_path)
-
+	return package_dir + "/public"
 }

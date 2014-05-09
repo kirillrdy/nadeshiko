@@ -16,7 +16,7 @@ type httpHandler struct {
 func (h httpHandler) ServeHTTP(writer http.ResponseWriter, request *http.Request) {
 	start_of_request := time.Now()
 
-	file_path := "public" + request.URL.Path
+	file_path := nadeshikoPublicDir() + request.URL.Path
 	if stat, err := os.Stat(file_path); os.IsNotExist(err) || stat.IsDir() {
 		for _, route := range h.routes {
 
