@@ -1,38 +1,41 @@
 package nadeshiko
 
 import (
-	"code.google.com/p/go.net/websocket"
-	"net/http"
-	"log"
 	"fmt"
+	"log"
+	"net/http"
+
+	"code.google.com/p/go.net/websocket"
 )
 
 const NADESHIKO_VERSION = "0.1.0"
 
 var DefaultActivity Activity
 
-func StartWithPortVerbose(activity Activity, port int, verbose bool) {
-	DefaultActivity = activity
+func startWithPortVerbose(routes Routes, port int, verbose bool) {
+	//DefaultActivity = activity
 	Verbose = verbose
 
 	log.Println("Starting Nadeshiko Server " + NADESHIKO_VERSION)
 	http.Handle("/nadeshiko_socket", websocket.Handler(websocketServer))
-	http.HandleFunc("/", fileServer)
 
 	listenOn := fmt.Sprintf(":%d", port)
 
 	log.Printf("Listening http://localhost:%d/\n", port)
-	err := http.ListenAndServe(listenOn, nil)
+	err := http.ListenAndServe(listenOn, httpHandler{routes: routes})
 	if err != nil {
 		log.Fatalln("ListenAndServe: " + err.Error())
 	}
-
 }
 
-func StatWithPort(activity Activity, port int) {
-	StartWithPortVerbose(activity, port, false)
+func StartWithPortVerbose(routes Routes, port int) {
+	startWithPortVerbose(routes, port, true)
 }
 
-func Start(activity Activity) {
-	StartWithPortVerbose(activity, 3000, false)
+func StatWithPort(routes Routes, port int) {
+	startWithPortVerbose(routes, port, false)
+}
+
+func Start(routes Routes) {
+	startWithPortVerbose(routes, 3000, false)
 }
