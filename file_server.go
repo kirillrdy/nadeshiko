@@ -3,6 +3,7 @@ package nadeshiko
 import (
 	"log"
 	"net/http"
+	"os"
 	"path"
 	"runtime"
 )
@@ -28,8 +29,25 @@ func fileServer(w http.ResponseWriter, req *http.Request) {
 
 	w.Header().Set("Server", "Nadeshiko "+NADESHIKO_VERSION)
 
-	http.ServeFile(w, req, nadeshikoPublicDir()+requested_path)
+	file_path := findStaticFile(req.URL.Path)
+	http.ServeFile(w, req, file_path)
 
+}
+
+func findStaticFile(file string) string {
+	for _, dir := range publicDirs() {
+		path := dir + file
+		log.Println(path)
+		if stat, err := os.Stat(path); !os.IsNotExist(err) && !stat.IsDir() {
+			return path
+		}
+
+	}
+	return ""
+}
+
+func publicDirs() []string {
+	return []string{"public", nadeshikoPublicDir()}
 }
 
 func nadeshikoPublicDir() string {

@@ -3,7 +3,6 @@ package nadeshiko
 import (
 	"log"
 	"net/http"
-	"os"
 	"time"
 )
 
@@ -16,8 +15,8 @@ type httpHandler struct {
 func (h httpHandler) ServeHTTP(writer http.ResponseWriter, request *http.Request) {
 	start_of_request := time.Now()
 
-	file_path := nadeshikoPublicDir() + request.URL.Path
-	if stat, err := os.Stat(file_path); os.IsNotExist(err) || stat.IsDir() {
+	file_path := findStaticFile(request.URL.Path)
+	if file_path == "" {
 		for _, route := range h.routes {
 
 			//TODO also match request types
