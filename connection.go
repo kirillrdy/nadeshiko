@@ -1,24 +1,45 @@
 package nadeshiko
 
 import (
-	"code.google.com/p/go.net/websocket"
 	"log"
 	"runtime"
+	"strings"
 	"sync"
+
+	"code.google.com/p/go.net/websocket"
 )
 
-type WebsocketConnection websocket.Conn
-
 type Connection struct {
-	websocket       *WebsocketConnection
-	mutex			sync.Mutex
+	websocket           *websocket.Conn
+	mutex               sync.Mutex
+	current_transaction []string
+	in_transaction      bool
+}
+
+func (connection *Connection) StartBuffer() {
+	connection.in_transaction = true
+}
+
+func (connection *Connection) FlushBuffer() {
+	connection.in_transaction = false
+	connection.SendMessage(strings.Join(connection.current_transaction, ";"))
+	connection.current_transaction = []string{}
 }
 
 func (connection *Connection) SendMessage(message string) {
 
 	connection.mutex.Lock()
-	real_websocket := websocket.Conn(*connection.websocket)
-	err := websocket.Message.Send(&real_websocket, message)
+	if connection.in_transaction {
+		connection.current_transaction = append(connection.current_transaction, message)
+	} else {
+		err := websocket.Message.Send(connection.websocket, message)
+
+		if err != nil {
+			log.Printf("runtime.Goexit '%s'\n", err)
+			runtime.Goexit()
+
+		}
+	}
 
 	connection.mutex.Unlock()
 
@@ -26,11 +47,6 @@ func (connection *Connection) SendMessage(message string) {
 	// but will try to send on close sockets
 	// perhaps we can do this when we change activities
 	//TODO handle errors other than send on closed connection
-	if err != nil {
-		log.Printf("runtime.Goexit '%s'\n", err)
-		runtime.Goexit()
-
-	}
 
 	if Verbose {
 		log.Printf("send: %s\n", message)

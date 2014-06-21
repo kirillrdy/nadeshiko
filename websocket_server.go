@@ -9,11 +9,10 @@ import (
 	"code.google.com/p/go.net/websocket"
 )
 
-func websocketServer(ws *websocket.Conn) {
+func websocketServer(socket *websocket.Conn) {
 	log.Printf("New client connection\n")
 
-	socket := WebsocketConnection(*ws)
-	connection := Connection{websocket: &socket}
+	connection := Connection{websocket: socket}
 
 	DefaultActivity.Start(&connection)
 
@@ -21,7 +20,7 @@ func websocketServer(ws *websocket.Conn) {
 		var buf string
 
 		//TODO Consider using JSON codec for websocket
-		err := websocket.Message.Receive(ws, &buf)
+		err := websocket.Message.Receive(socket, &buf)
 		if err != nil {
 			if err == io.EOF {
 				log.Println("Webscoket client disconnected")
