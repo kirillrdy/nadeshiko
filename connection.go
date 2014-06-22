@@ -22,8 +22,10 @@ func (connection *Connection) StartBuffer() {
 
 func (connection *Connection) FlushBuffer() {
 	connection.in_transaction = false
-	connection.SendMessage(strings.Join(connection.current_transaction, ";"))
-	connection.current_transaction = []string{}
+	if len(connection.current_transaction) != 0 {
+		connection.SendMessage(strings.Join(connection.current_transaction, ";"))
+		connection.current_transaction = []string{}
+	}
 }
 
 func (connection *Connection) SendMessage(message string) {
