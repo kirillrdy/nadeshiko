@@ -37,7 +37,6 @@ func fileServer(w http.ResponseWriter, req *http.Request) {
 func findStaticFile(file string) string {
 	for _, dir := range publicDirs() {
 		path := dir + file
-		log.Println(path)
 		if stat, err := os.Stat(path); !os.IsNotExist(err) && !stat.IsDir() {
 			return path
 		}
