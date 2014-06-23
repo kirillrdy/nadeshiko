@@ -23,7 +23,7 @@ func websocketServer(socket *websocket.Conn) {
 		err := websocket.Message.Receive(socket, &buf)
 		if err != nil {
 			if err == io.EOF {
-				log.Println("Webscoket client disconnected")
+				log.Println("Websocket client disconnected")
 			} else {
 				log.Printf("ERROR reading from socket: %v \n", err)
 			}
