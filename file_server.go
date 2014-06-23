@@ -22,7 +22,7 @@ func fileServer(w http.ResponseWriter, req *http.Request) {
 		requested_path = "/index.html"
 	}
 
-	log.Printf("HTTP GET: %q \n", requested_path)
+	log.Printf("GET: %q \n", requested_path)
 	if Verbose {
 		log.Printf("User-Agent: %s \n\n", req.Header["User-Agent"])
 	}
