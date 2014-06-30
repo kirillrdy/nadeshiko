@@ -4,14 +4,12 @@ import (
 	"log"
 	"runtime"
 	"strings"
-	"sync"
 
 	"code.google.com/p/go.net/websocket"
 )
 
 type Connection struct {
 	websocket           *websocket.Conn
-	mutex               sync.Mutex
 	current_transaction []string
 	in_transaction      bool
 }
@@ -30,7 +28,6 @@ func (connection *Connection) FlushBuffer() {
 
 func (connection *Connection) SendMessage(message string) {
 
-	connection.mutex.Lock()
 	if connection.in_transaction {
 		connection.current_transaction = append(connection.current_transaction, message)
 	} else {
@@ -42,8 +39,6 @@ func (connection *Connection) SendMessage(message string) {
 
 		}
 	}
-
-	connection.mutex.Unlock()
 
 	// This is done to cleanup timers that are not terminated
 	// but will try to send on close sockets
