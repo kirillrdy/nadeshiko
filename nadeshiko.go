@@ -34,7 +34,7 @@ func StartWithPortVerbose(routes Routes, port int) {
 	startWithPortVerbose(routes, port, true)
 }
 
-func StatWithPort(routes Routes, port int) {
+func StartWithPort(routes Routes, port int) {
 	startWithPortVerbose(routes, port, false)
 }
 
