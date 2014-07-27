@@ -23,7 +23,7 @@ func startWithPortVerbose(routes Routes, port int, verbose bool) {
 
 	listenOn := fmt.Sprintf(":%d", port)
 
-	log.Printf("Listening http://localhost:%d/\n", port)
+	log.Printf("Listening http://0.0.0.0:%d/\n", port)
 	err := http.ListenAndServe(listenOn, httpHandler{routes: routes})
 	if err != nil {
 		log.Fatalln("ListenAndServe: " + err.Error())
