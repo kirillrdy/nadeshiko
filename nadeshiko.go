@@ -41,3 +41,9 @@ func StartWithPort(routes Routes, port int) {
 func Start(routes Routes) {
 	startWithPortVerbose(routes, 3000, false)
 }
+
+func StartActivity(activity Activity) {
+	routes := Routes{}
+	routes.Activity("/", activity)
+	startWithPortVerbose(routes, 3000, false)
+}
