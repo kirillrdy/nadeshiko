@@ -44,7 +44,7 @@ func websocketServer(socket *websocket.Conn) {
 				if Verbose {
 					log.Printf("Removing one-time callback \n")
 				}
-				deleteCallback <- json_array[0]
+				deleteCallback(json_array[0])
 			}
 			if Verbose {
 				log.Printf("Current callbacks count %d \n", len(callbacks))
@@ -62,7 +62,7 @@ func websocketServer(socket *websocket.Conn) {
 			if Verbose {
 				log.Printf("Removing callback %s for disconnected client\n", callback_id)
 			}
-			deleteCallback <- callback_id
+			deleteCallback(callback_id)
 		}
 	}
 

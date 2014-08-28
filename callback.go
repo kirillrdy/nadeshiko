@@ -1,5 +1,7 @@
 package nadeshiko
 
+import "sync"
+
 type overSocketCallback struct {
 	connection *Connection
 	oneTime    bool
@@ -7,12 +9,10 @@ type overSocketCallback struct {
 }
 
 var callbacks = make(map[string]overSocketCallback)
-var deleteCallback = make(chan string)
+var callbacksMutex sync.Mutex
 
-func init() {
-	go func() {
-		for callbackId := range deleteCallback {
-			delete(callbacks, callbackId)
-		}
-	}()
+func deleteCallback(callbackId string) {
+	callbacksMutex.Lock()
+	delete(callbacks, callbackId)
+	callbacksMutex.Unlock()
 }
