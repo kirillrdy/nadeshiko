@@ -7,6 +7,8 @@ const POST = "POST"
 
 type Routes []Route
 
+var defaultRoutes Routes
+
 func (routes *Routes) Get(path string, handler HttpHander) {
 	route := Route{path, GET, handler}
 	*routes = append(*routes, route)
@@ -26,6 +28,10 @@ func (routes *Routes) Activity(path string, activity Activity) {
 	//TODO hacky, we should get rid of concept of default activity
 	DefaultActivity = activity
 
-	route := Route{path, GET, handler}
+	route := Route{Path: path, Method: GET, Handler: handler}
 	*routes = append(*routes, route)
+}
+
+func AddActivity(path string, activity Activity) {
+	defaultRoutes.Activity(path, activity)
 }
