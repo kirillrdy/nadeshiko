@@ -55,8 +55,6 @@ func websocketServer(socket *websocket.Conn) {
 		}
 	}
 
-	CleanupEventHandlers <- &connection
-
 	for callback_id, callbackStruct := range callbacks {
 		if callbackStruct.connection == &connection {
 			if Verbose {
