@@ -32,6 +32,10 @@ func (routes *Routes) Activity(path string, activity Activity) {
 	*routes = append(*routes, route)
 }
 
+func Get(path string, handler HttpHander) {
+	defaultRoutes.Get(path, handler)
+}
+
 func AddActivity(path string, activity Activity) {
 	defaultRoutes.Activity(path, activity)
 }
