@@ -6,6 +6,7 @@ import (
 	"time"
 )
 
+// Possibly rename to RequestResponseHandler
 type HttpHander func(http.ResponseWriter, *http.Request)
 
 type httpHandler struct {
