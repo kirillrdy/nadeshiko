@@ -39,12 +39,12 @@
         if (! reconnecting) {
           $(document.body).append("<span  class=\"label label-warning connection-lost\">Lost connection retrying</span>")
         }
-        setTimeout("init(\"nadeshiko_socket\", true)",1000)
+        setTimeout("init(\".websocket\", true)",1000)
       };
     };
 
   $(function(){
-    init("nadeshiko_socket",false);
+    init(".websocket",false);
   })
 </script>
 <body> 

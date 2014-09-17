@@ -1,9 +1,13 @@
 package nadeshiko
 
-import "sync"
+import (
+	"sync"
+
+	"code.google.com/p/go.net/websocket"
+)
 
 type overSocketCallback struct {
-	connection *Connection
+	connection *websocket.Conn
 	oneTime    bool
 	callback   func(...string)
 }

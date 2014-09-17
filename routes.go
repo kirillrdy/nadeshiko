@@ -1,41 +1,35 @@
 package nadeshiko
 
-import "net/http"
+import (
+	"net/http"
+
+	"code.google.com/p/go.net/websocket"
+)
 
 const GET = "GET"
 const POST = "POST"
 
-type Routes []Route
+type routes []Route
 
-var defaultRoutes Routes
-
-func (routes *Routes) Get(path string, handler HttpHander) {
+func (routes *routes) Get(path string, handler func(http.ResponseWriter, *http.Request)) {
 	route := Route{path, GET, handler}
 	*routes = append(*routes, route)
 }
 
-func (routes *Routes) Post(path string, handler HttpHander) {
+func (routes *routes) Post(path string, handler func(http.ResponseWriter, *http.Request)) {
 	route := Route{path, POST, handler}
 	*routes = append(*routes, route)
 }
 
-func (routes *Routes) Activity(path string, activity Activity) {
+func (routes *routes) Nadeshiko(path string, handler func(Document)) {
 	// need to compose our own handler that servers index.html for nadeshiko
-	handler := func(response http.ResponseWriter, request *http.Request) {
+	httpHandler := func(response http.ResponseWriter, request *http.Request) {
 		http.ServeFile(response, request, nadeshikoPublicDir()+"/index.html")
 	}
 
-	//TODO hacky, we should get rid of concept of default activity
-	DefaultActivity = activity
+	customeWebsocketServer := websocketServer(handler)
 
-	route := Route{Path: path, Method: GET, Handler: handler}
-	*routes = append(*routes, route)
-}
+	routes.Get(path+".websocket", websocket.Handler(customeWebsocketServer).ServeHTTP)
 
-func Get(path string, handler HttpHander) {
-	defaultRoutes.Get(path, handler)
-}
-
-func AddActivity(path string, activity Activity) {
-	defaultRoutes.Activity(path, activity)
+	routes.Get(path, httpHandler)
 }

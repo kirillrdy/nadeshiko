@@ -6,14 +6,11 @@ import (
 	"time"
 )
 
-// Possibly rename to RequestResponseHandler
-type HttpHander func(http.ResponseWriter, *http.Request)
-
-type httpHandler struct {
-	routes Routes
+type internalHttpHandler struct {
+	routes routes
 }
 
-func (h httpHandler) ServeHTTP(writer http.ResponseWriter, request *http.Request) {
+func (h internalHttpHandler) ServeHTTP(writer http.ResponseWriter, request *http.Request) {
 	start_of_request := time.Now()
 
 	file_path := findStaticFile(request.URL.Path)
