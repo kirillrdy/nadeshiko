@@ -37,6 +37,10 @@ func (element JQuerySelectedElements) Before(content string) {
 	element.oneArgumentMethod("before", content)
 }
 
+func (element JQuerySelectedElements) Prepend(content string) {
+	element.oneArgumentMethod("prepend", content)
+}
+
 func (element JQuerySelectedElements) PrependString(content string) {
 	element.oneArgumentMethod("prepend", content)
 }
