@@ -45,3 +45,11 @@ func H2() Node {
 func H3() Node {
 	return Node{Type: "h3"}
 }
+
+func Svg() Node {
+	return Node{Type: "svg"}
+}
+
+func Path() Node {
+	return Node{Type: "path"}
+}
