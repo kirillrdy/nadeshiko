@@ -2,7 +2,6 @@ package nadeshiko
 
 import (
 	"log"
-	"runtime"
 	"strings"
 
 	"code.google.com/p/go.net/websocket"
@@ -12,6 +11,8 @@ type Document struct {
 	websocket           *websocket.Conn
 	current_transaction []string
 	in_transaction      bool
+	Error               error
+	ClientDisconnected  bool
 }
 
 func (document *Document) StartBuffer() {
@@ -34,9 +35,9 @@ func (document *Document) SendMessage(message string) {
 		err := websocket.Message.Send(document.websocket, message)
 
 		if err != nil {
-			log.Printf("runtime.Goexit '%s'\n", err)
-			runtime.Goexit()
-
+			log.Printf("ERROR '%s'\n", err)
+			document.Error = err
+			//runtime.Goexit()
 		}
 	}
 

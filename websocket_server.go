@@ -55,6 +55,8 @@ func websocketServer(handler func(*Document)) func(*websocket.Conn) {
 			}
 		}
 
+		document.ClientDisconnected = true
+
 		for callback_id, callbackStruct := range callbacks {
 			if callbackStruct.connection == nil {
 				log.Fatalln("This should not happen")
