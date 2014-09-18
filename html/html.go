@@ -49,3 +49,15 @@ func Body() Node {
 func Title() Node {
 	return Node{Type: "title"}
 }
+
+func H1() Node {
+	return Node{Type: "h1"}
+}
+
+func H2() Node {
+	return Node{Type: "h2"}
+}
+
+func H3() Node {
+	return Node{Type: "h3"}
+}
