@@ -1,7 +1,7 @@
 package html
 
 func Html() Node {
-	return Node{Type: "meta", headTagMetaMagic: "!DOCTYPE "}
+	return Node{Type: "html", headTagMetaMagic: "!DOCTYPE "}
 }
 
 func Meta() Node {
