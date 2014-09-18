@@ -9,12 +9,12 @@ import (
 	"code.google.com/p/go.net/websocket"
 )
 
-func websocketServer(handler func(Document)) func(*websocket.Conn) {
+func websocketServer(handler func(*Document)) func(*websocket.Conn) {
 	return func(connection *websocket.Conn) {
 		log.Printf("New client connection\n")
 
 		document := Document{websocket: connection}
-		handler(document)
+		handler(&document)
 
 		for {
 			var buf string
@@ -71,5 +71,4 @@ func websocketServer(handler func(Document)) func(*websocket.Conn) {
 			log.Printf("Current callbacks count %d \n", len(callbacks))
 		}
 	}
-
 }

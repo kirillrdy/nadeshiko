@@ -21,7 +21,7 @@ func (routes *routes) Post(path string, handler func(http.ResponseWriter, *http.
 	*routes = append(*routes, route)
 }
 
-func (routes *routes) Nadeshiko(path string, handler func(Document)) {
+func (routes *routes) Nadeshiko(path string, handler func(*Document)) {
 	// need to compose our own handler that servers index.html for nadeshiko
 	httpHandler := func(response http.ResponseWriter, request *http.Request) {
 		http.ServeFile(response, request, nadeshikoPublicDir()+"/index.html")
