@@ -3,10 +3,11 @@ package html
 import "fmt"
 
 type Node struct {
-	Type       string
-	Attributes map[string]string
-	children   []Node
-	text       string
+	Type             string
+	Attributes       map[string]string
+	children         []Node
+	text             string
+	headTagMetaMagic string // This is for html doctype
 }
 
 func (node Node) ChildrenAsString() string {
@@ -32,8 +33,8 @@ func (node Node) String() string {
 	} else {
 		node_text = node.text
 	}
-	text := `<%s%s>%s</%s>`
-	return fmt.Sprintf(text, node.Type, node.AttributesAsString(), node_text, node.Type)
+	text := `<%s%s%s>%s</%s>`
+	return fmt.Sprintf(text, node.headTagMetaMagic, node.Type, node.AttributesAsString(), node_text, node.Type)
 }
 
 func (node Node) Text(text string) Node {
