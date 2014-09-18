@@ -9,10 +9,10 @@ import (
 
 type JQuerySelectedElements struct {
 	selector string
-	document Document
+	document *Document
 }
 
-func (document Document) JQuery(selector string) (element JQuerySelectedElements) {
+func (document *Document) JQuery(selector string) (element JQuerySelectedElements) {
 	element.selector = selector
 	element.document = document
 	return
