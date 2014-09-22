@@ -93,3 +93,7 @@ func A() Node {
 func Input() Node {
 	return Node{Type: "input"}
 }
+
+func Img() Node {
+	return Node{Type: "img"}
+}
