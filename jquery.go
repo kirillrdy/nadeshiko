@@ -73,6 +73,10 @@ func (element JQuerySelectedElements) Click(callback func()) {
 	element.zeroArgumentMethodWithCallback("click", callback)
 }
 
+func (element JQuerySelectedElements) On(eventName string, callback func()) {
+	element.oneArgumentMethodWithCallback("on", eventName, callback)
+}
+
 func (element JQuerySelectedElements) Change(callback func()) {
 	element.zeroArgumentMethodWithCallback("change", callback)
 }
@@ -149,6 +153,17 @@ func (element JQuerySelectedElements) oneArgumentMethod(name string, param strin
 
 func (element JQuerySelectedElements) zeroArgumentMethod(name string) {
 	string_to_send := fmt.Sprintf("$('%s').%s()", element.selector, name)
+	element.document.SendMessage(string_to_send)
+}
+
+func (element JQuerySelectedElements) oneArgumentMethodWithCallback(name string, arg1 string, callback func()) {
+	callback_id := generateCallbackId()
+
+	callbacks[callback_id] = overSocketCallback{connection: element.document.websocket, oneTime: false, callback: func(...string) {
+		callback()
+	}}
+
+	string_to_send := fmt.Sprintf("$('%s').%s('%s', function(){ ws.send(JSON.stringify([\"%s\"])); });", element.selector, name, arg1, callback_id)
 	element.document.SendMessage(string_to_send)
 }
 
