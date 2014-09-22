@@ -1,7 +1,10 @@
 package nadeshiko
 
 import (
+	"io"
 	"net/http"
+
+	"github.com/kirillrdy/nadeshiko/html"
 
 	"code.google.com/p/go.net/websocket"
 )
@@ -22,9 +25,17 @@ func (routes *routes) Post(path string, handler func(http.ResponseWriter, *http.
 }
 
 func (routes *routes) Nadeshiko(path string, handler func(*Document)) {
-	// need to compose our own handler that servers index.html for nadeshiko
 	httpHandler := func(response http.ResponseWriter, request *http.Request) {
-		http.ServeFile(response, request, nadeshikoPublicDir()+"/index.html")
+		page := html.Html().Children(
+			html.Head().Children(
+				html.Script().Attribute("src", ""),
+				html.Script().Attribute("src", "/jquery-2.0.3.min.js"),
+				html.Script().Attribute("src", "/jquery-ui-1.8.21.custom.min.js"),
+				html.Script().Attribute("src", "/socket_init.js"),
+			),
+			html.Body(),
+		)
+		io.WriteString(response, page.String())
 	}
 
 	customeWebsocketServer := websocketServer(handler)
