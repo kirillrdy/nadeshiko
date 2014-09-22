@@ -27,7 +27,11 @@ func Body() Node {
 }
 
 func Style() Node {
-	return Node{Type: "Style"}
+	return Node{Type: "style"}
+}
+
+func Script() Node {
+	return Node{Type: "script"}
 }
 
 func Title() Node {
