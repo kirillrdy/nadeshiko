@@ -59,7 +59,7 @@ func Path() Node {
 }
 
 func Table() Node {
-	return Node{Type: "thead"}
+	return Node{Type: "table"}
 }
 
 func Thead() Node {
