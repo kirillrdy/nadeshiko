@@ -29,7 +29,7 @@ func (routes *routes) Nadeshiko(path string, handler func(*Document)) {
 		page := html.Html().Children(
 			html.Head().Children(
 				html.Script().Attribute("src", ""),
-				html.Script().Attribute("src", "/jquery-2.0.3.min.js"),
+				html.Script().Attribute("src", "/jquery-2.1.1.min.js"),
 				html.Script().Attribute("src", "/jquery-ui-1.8.21.custom.min.js"),
 				html.Script().Attribute("src", "/socket_init.js"),
 			),
