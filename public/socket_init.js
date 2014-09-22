@@ -1,7 +1,8 @@
-function init(handler, reconnecting) {
+function init(reconnecting) {
   var host = window.location.hostname
   var port = window.location.port
-  var web_socket_location = "ws://"+host+":" + port + "/" + handler
+  var path = window.location.pathname
+  var web_socket_location = "ws://"+host+":" + port + path + ".websocket"
   ws = new WebSocket(web_socket_location);
 
   ws.onopen = function(){
@@ -20,10 +21,10 @@ function init(handler, reconnecting) {
     if (! reconnecting) {
       $(document.body).append("<span  class=\"label label-warning connection-lost\">Lost connection retrying</span>")
     }
-    setTimeout("init(\".websocket\", true)",500)
+    setTimeout("init(true)",500)
   };
 };
 
 $(function(){
-  init(".websocket",false);
+  init(false);
 })
