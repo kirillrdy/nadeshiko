@@ -57,3 +57,39 @@ func Svg() Node {
 func Path() Node {
 	return Node{Type: "path"}
 }
+
+func Table() Node {
+	return Node{Type: "thead"}
+}
+
+func Thead() Node {
+	return Node{Type: "thead"}
+}
+
+func Tbody() Node {
+	return Node{Type: "tbody"}
+}
+
+func Th() Node {
+	return Node{Type: "th"}
+}
+
+func Tr() Node {
+	return Node{Type: "tr"}
+}
+
+func Td() Node {
+	return Node{Type: "td"}
+}
+
+func Button() Node {
+	return Node{Type: "button"}
+}
+
+func A() Node {
+	return Node{Type: "a"}
+}
+
+func Input() Node {
+	return Node{Type: "input"}
+}
