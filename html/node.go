@@ -3,7 +3,7 @@ package html
 import "fmt"
 
 type Node struct {
-	Type             string
+	nodeType         string
 	Attributes       map[string]string
 	children         []Node
 	text             string

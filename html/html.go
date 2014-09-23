@@ -1,99 +1,99 @@
 package html
 
 func Html() Node {
-	return Node{Type: "html", headTagMetaMagic: "!DOCTYPE "}
+	return Node{nodeType: "html", headTagMetaMagic: "!DOCTYPE "}
 }
 
 func Meta() Node {
-	return Node{Type: "meta"}
+	return Node{nodeType: "meta"}
 }
 
 func Span() Node {
-	return Node{Type: "span"}
+	return Node{nodeType: "span"}
 }
 func P() Node {
-	return Node{Type: "p"}
+	return Node{nodeType: "p"}
 }
 func Div() Node {
-	return Node{Type: "div"}
+	return Node{nodeType: "div"}
 }
 
 func Head() Node {
-	return Node{Type: "head"}
+	return Node{nodeType: "head"}
 }
 
 func Body() Node {
-	return Node{Type: "body"}
+	return Node{nodeType: "body"}
 }
 
 func Style() Node {
-	return Node{Type: "style"}
+	return Node{nodeType: "style"}
 }
 
 func Script() Node {
-	return Node{Type: "script"}
+	return Node{nodeType: "script"}
 }
 
 func Title() Node {
-	return Node{Type: "title"}
+	return Node{nodeType: "title"}
 }
 
 func H1() Node {
-	return Node{Type: "h1"}
+	return Node{nodeType: "h1"}
 }
 
 func H2() Node {
-	return Node{Type: "h2"}
+	return Node{nodeType: "h2"}
 }
 
 func H3() Node {
-	return Node{Type: "h3"}
+	return Node{nodeType: "h3"}
 }
 
 func Svg() Node {
-	return Node{Type: "svg"}
+	return Node{nodeType: "svg"}
 }
 
 func Path() Node {
-	return Node{Type: "path"}
+	return Node{nodeType: "path"}
 }
 
 func Table() Node {
-	return Node{Type: "table"}
+	return Node{nodeType: "table"}
 }
 
 func Thead() Node {
-	return Node{Type: "thead"}
+	return Node{nodeType: "thead"}
 }
 
 func Tbody() Node {
-	return Node{Type: "tbody"}
+	return Node{nodeType: "tbody"}
 }
 
 func Th() Node {
-	return Node{Type: "th"}
+	return Node{nodeType: "th"}
 }
 
 func Tr() Node {
-	return Node{Type: "tr"}
+	return Node{nodeType: "tr"}
 }
 
 func Td() Node {
-	return Node{Type: "td"}
+	return Node{nodeType: "td"}
 }
 
 func Button() Node {
-	return Node{Type: "button"}
+	return Node{nodeType: "button"}
 }
 
 func A() Node {
-	return Node{Type: "a"}
+	return Node{nodeType: "a"}
 }
 
 func Input() Node {
-	return Node{Type: "input"}
+	return Node{nodeType: "input"}
 }
 
 func Img() Node {
-	return Node{Type: "img"}
+	return Node{nodeType: "img"}
 }
