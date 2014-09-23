@@ -5,7 +5,7 @@ func (node Node) Src(value string) Node {
 }
 
 func (node Node) Style(value string) Node {
-	return node.Attribute("src", value)
+	return node.Attribute("style", value)
 }
 
 func (node Node) Id(value string) Node {
