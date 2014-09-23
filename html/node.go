@@ -34,7 +34,7 @@ func (node Node) String() string {
 		node_text = node.text
 	}
 	text := `<%s%s%s>%s</%s>`
-	return fmt.Sprintf(text, node.headTagMetaMagic, node.Type, node.AttributesAsString(), node_text, node.Type)
+	return fmt.Sprintf(text, node.headTagMetaMagic, node.nodeType, node.AttributesAsString(), node_text, node.nodeType)
 }
 
 func (node Node) Text(text string) Node {
