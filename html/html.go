@@ -110,6 +110,10 @@ func Li() Node {
 	return Node{nodeType: "li"}
 }
 
-func Br() Node {
-	return Node{nodeType: "br"}
+func Form() Node {
+	return Node{nodeType: "form"}
+}
+
+func Label() Node {
+	return Node{nodeType: "label"}
 }
