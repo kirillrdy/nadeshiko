@@ -19,6 +19,10 @@ func Nadeshiko(path string, handler func(*Document)) {
 	defaultRoutes.Nadeshiko(path, handler)
 }
 
+func WebSocket(path string, handler func(*Document)) {
+	defaultRoutes.WebSocket(path, handler)
+}
+
 func startWithPortVerbose(port int, verbose bool) {
 
 	log.Println("Starting Nadeshiko Server " + NADESHIKO_VERSION)

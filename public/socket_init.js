@@ -6,7 +6,6 @@ function init(reconnecting) {
   ws = new WebSocket(web_socket_location);
 
   ws.onopen = function(){
-    $(document.body).empty()
     reconnecting = false
   }
 
