@@ -97,3 +97,19 @@ func Input() Node {
 func Img() Node {
 	return Node{nodeType: "img"}
 }
+
+func Link() Node {
+	return Node{nodeType: "link"}
+}
+
+func Ul() Node {
+	return Node{nodeType: "ul"}
+}
+
+func Li() Node {
+	return Node{nodeType: "li"}
+}
+
+func Br() Node {
+	return Node{nodeType: "br"}
+}
