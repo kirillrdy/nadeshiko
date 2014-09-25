@@ -35,3 +35,11 @@ func (node Node) Media(value string) Node {
 func (node Node) Rel(value string) Node {
 	return node.Attribute("rel", value)
 }
+
+func (node Node) Name(value string) Node {
+	return node.Attribute("name", value)
+}
+
+func (node Node) For(value string) Node {
+	return node.Attribute("for", value)
+}
