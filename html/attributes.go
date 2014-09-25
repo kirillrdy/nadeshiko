@@ -23,3 +23,15 @@ func (node Node) Type(value string) Node {
 func (node Node) Value(value string) Node {
 	return node.Attribute("value", value)
 }
+
+func (node Node) Href(value string) Node {
+	return node.Attribute("href", value)
+}
+
+func (node Node) Media(value string) Node {
+	return node.Attribute("media", value)
+}
+
+func (node Node) Rel(value string) Node {
+	return node.Attribute("rel", value)
+}
