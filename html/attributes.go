@@ -43,3 +43,7 @@ func (node Node) Name(value string) Node {
 func (node Node) For(value string) Node {
 	return node.Attribute("for", value)
 }
+
+func (node Node) Method(value string) Node {
+	return node.Attribute("method", value)
+}
