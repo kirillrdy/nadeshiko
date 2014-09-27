@@ -15,6 +15,10 @@ func Get(path string, handler func(http.ResponseWriter, *http.Request)) {
 	defaultRoutes.Get(path, handler)
 }
 
+func Post(path string, handler func(http.ResponseWriter, *http.Request)) {
+	defaultRoutes.Post(path, handler)
+}
+
 func Nadeshiko(path string, handler func(*Document)) {
 	defaultRoutes.Nadeshiko(path, handler)
 }
