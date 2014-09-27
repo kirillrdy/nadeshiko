@@ -18,7 +18,7 @@ func (h internalHttpHandler) ServeHTTP(writer http.ResponseWriter, request *http
 		for _, route := range h.routes {
 
 			//TODO also match request types
-			if request.URL.Path == route.Path {
+			if request.URL.Path == route.Path && request.Method == route.Method {
 				log.Printf("%s: %q \n", request.Method, request.URL.Path)
 				route.Handler(writer, request)
 				log.Printf("time taken: %s \n\n", time.Since(start_of_request).String())
