@@ -117,3 +117,11 @@ func Form() Node {
 func Label() Node {
 	return Node{nodeType: "label"}
 }
+
+func Select() Node {
+	return Node{nodeType: "select"}
+}
+
+func Option() Node {
+	return Node{nodeType: "option"}
+}
