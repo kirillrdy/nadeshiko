@@ -120,6 +120,22 @@ func (element JQuerySelectedElements) GetVal(callback func(string)) {
 	element.document.SendMessage(string_to_send)
 }
 
+func (element JQuerySelectedElements) GetValChan() string {
+	random_string := generateCallbackId()
+
+	result := make(chan string)
+
+	callback := func(vals ...string) {
+		result <- vals[1]
+	}
+
+	callbacks[random_string] = overSocketCallback{connection: element.document.websocket, oneTime: true, callback: callback}
+
+	string_to_send := fmt.Sprintf("ws.send( JSON.stringify([\"%s\",$('%s').val()])); ", random_string, element.selector)
+	element.document.SendMessage(string_to_send)
+	return <-result
+}
+
 func (element JQuerySelectedElements) LoadHtmlFile(filename string) {
 	data, err := ioutil.ReadFile(filename)
 	if err != nil {
