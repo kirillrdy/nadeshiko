@@ -39,16 +39,19 @@ func websocketServer(handler func(*Document)) func(*websocket.Conn) {
 			json.Unmarshal([]byte(buf), &json_array)
 
 			if callbackStruct, ok := callbacks[json_array[0]]; ok {
-				callbackStruct.callback(json_array...)
-				if callbackStruct.oneTime {
-					if Verbose {
-						log.Printf("Removing one-time callback \n")
+				//TODO danger, huge possibility for data races
+				go func() {
+					callbackStruct.callback(json_array...)
+					if callbackStruct.oneTime {
+						if Verbose {
+							log.Printf("Removing one-time callback \n")
+						}
+						deleteCallback(json_array[0])
 					}
-					deleteCallback(json_array[0])
-				}
-				if Verbose {
-					log.Printf("Current callbacks count %d \n", len(callbacks))
-				}
+					if Verbose {
+						log.Printf("Current callbacks count %d \n", len(callbacks))
+					}
+				}()
 
 			} else {
 				log.Printf("Can't find callback for %s \n", json_array[0])
