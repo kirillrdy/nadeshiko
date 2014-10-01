@@ -120,7 +120,7 @@ func (element JQuerySelectedElements) GetVal(callback func(string)) {
 	element.document.SendMessage(string_to_send)
 }
 
-func (element JQuerySelectedElements) GetValChan() string {
+func (element JQuerySelectedElements) GetValChan() chan string {
 	random_string := generateCallbackId()
 
 	result := make(chan string)
@@ -133,7 +133,7 @@ func (element JQuerySelectedElements) GetValChan() string {
 
 	string_to_send := fmt.Sprintf("ws.send( JSON.stringify([\"%s\",$('%s').val()])); ", random_string, element.selector)
 	element.document.SendMessage(string_to_send)
-	return <-result
+	return result
 }
 
 func (element JQuerySelectedElements) LoadHtmlFile(filename string) {
