@@ -47,3 +47,7 @@ func (node Node) For(value string) Node {
 func (node Node) Method(value string) Node {
 	return node.Attribute("method", value)
 }
+
+func (node Node) Selected(value string) Node {
+	return node.Attribute("selected", value)
+}
