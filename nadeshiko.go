@@ -5,6 +5,8 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+
+	"github.com/gorilla/context"
 )
 
 const NADESHIKO_VERSION = "0.1.0"
@@ -34,7 +36,7 @@ func startWithPortVerbose(port int, verbose bool) {
 	listenOn := fmt.Sprintf(":%d", port)
 
 	log.Printf("Listening http://0.0.0.0:%d/\n", port)
-	err := http.ListenAndServe(listenOn, internalHttpHandler{routes: defaultRoutes})
+	err := http.ListenAndServe(listenOn, context.ClearHandler(internalHttpHandler{routes: defaultRoutes}))
 	if err != nil {
 		log.Fatalln("ListenAndServe: " + err.Error())
 	}
