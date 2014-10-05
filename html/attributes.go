@@ -51,3 +51,7 @@ func (node Node) Method(value string) Node {
 func (node Node) Selected(value string) Node {
 	return node.Attribute("selected", value)
 }
+
+func (node Node) Align(value string) Node {
+	return node.Attribute("align", value)
+}
