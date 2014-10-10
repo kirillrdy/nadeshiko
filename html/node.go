@@ -27,9 +27,8 @@ func (node Node) AttributesAsString() string {
 }
 
 func (node Node) String() string {
-	node_text := ""
-	//TODO instead check for len of children
-	if node.text == "" {
+	var node_text string
+	if len(node.children) > 0 {
 		node_text = node.ChildrenAsString()
 	} else {
 		node_text = node.text
