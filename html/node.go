@@ -1,6 +1,9 @@
 package html
 
-import "fmt"
+import (
+	"bytes"
+	"fmt"
+)
 
 type Node struct {
 	nodeType         string
@@ -11,19 +14,19 @@ type Node struct {
 }
 
 func (node Node) ChildrenAsString() string {
-	children_as_string := ""
+	var buffer bytes.Buffer
 	for _, child := range node.children {
-		children_as_string += child.String()
+		buffer.WriteString(child.String())
 	}
-	return children_as_string
+	return buffer.String()
 }
 
 func (node Node) AttributesAsString() string {
-	result := ""
+	var result bytes.Buffer
 	for attribute, value := range node.Attributes {
-		result += fmt.Sprintf(" %s=\"%s\"", attribute, value)
+		result.WriteString(fmt.Sprintf(" %s=\"%s\"", attribute, value))
 	}
-	return result
+	return result.String()
 }
 
 func (node Node) String() string {
