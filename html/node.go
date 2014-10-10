@@ -2,7 +2,7 @@ package html
 
 import (
 	"bytes"
-	"fmt"
+	"io"
 )
 
 type Node struct {
@@ -21,24 +21,75 @@ func (node Node) ChildrenAsString() string {
 	return buffer.String()
 }
 
+func (node Node) WriteChildrenToBuffer(buffer *bytes.Buffer) {
+	for _, child := range node.children {
+		child.WriteToBuffer(buffer)
+	}
+}
+
+func (node Node) WriteChildren(writer io.Writer) {
+	for _, child := range node.children {
+		child.Write(writer)
+	}
+}
+
 func (node Node) AttributesAsString() string {
 	var result bytes.Buffer
 	for attribute, value := range node.Attributes {
-		result.WriteString(fmt.Sprintf(" %s=\"%s\"", attribute, value))
+		result.WriteString(" ")
+		result.WriteString(attribute)
+		result.WriteString("=\"")
+		result.WriteString(value)
+		result.WriteString("\"")
 	}
 	return result.String()
 }
 
 func (node Node) String() string {
-	var node_text string
-	if len(node.children) > 0 {
-		node_text = node.ChildrenAsString()
-	} else {
-		node_text = node.text
-	}
-	text := `<%s%s%s>%s</%s>`
+	buffer := &bytes.Buffer{}
+	node.WriteToBuffer(buffer)
+	return buffer.String()
+}
+
+func (node Node) Write(writer io.Writer) {
+
 	//TODO need to escape html
-	return fmt.Sprintf(text, node.headTagMetaMagic, node.nodeType, node.AttributesAsString(), node_text, node.nodeType)
+	io.WriteString(writer, "<")
+	io.WriteString(writer, node.headTagMetaMagic)
+	io.WriteString(writer, node.nodeType)
+	io.WriteString(writer, node.AttributesAsString())
+	io.WriteString(writer, ">")
+
+	if len(node.children) > 0 {
+		node.WriteChildren(writer)
+	} else {
+		io.WriteString(writer, node.text)
+	}
+
+	io.WriteString(writer, "</")
+	io.WriteString(writer, node.nodeType)
+	io.WriteString(writer, ">")
+
+}
+func (node Node) WriteToBuffer(buffer *bytes.Buffer) {
+
+	//TODO need to escape html
+	buffer.WriteString("<")
+	buffer.WriteString(node.headTagMetaMagic)
+	buffer.WriteString(node.nodeType)
+	buffer.WriteString(node.AttributesAsString())
+	buffer.WriteString(">")
+
+	if len(node.children) > 0 {
+		node.WriteChildrenToBuffer(buffer)
+	} else {
+		buffer.WriteString(node.text)
+	}
+
+	buffer.WriteString("</")
+	buffer.WriteString(node.nodeType)
+	buffer.WriteString(">")
+
 }
 
 func (node Node) Text(text string) Node {
