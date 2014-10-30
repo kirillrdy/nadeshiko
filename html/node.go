@@ -15,21 +15,21 @@ type Node struct {
 
 func (node Node) ChildrenAsString() string {
 	var buffer bytes.Buffer
-	for _, child := range node.children {
-		buffer.WriteString(child.String())
+	for i := range node.children {
+		buffer.WriteString(node.children[i].String())
 	}
 	return buffer.String()
 }
 
 func (node Node) WriteChildrenToBuffer(buffer *bytes.Buffer) {
-	for _, child := range node.children {
-		child.WriteToBuffer(buffer)
+	for i := range node.children {
+		node.children[i].WriteToBuffer(buffer)
 	}
 }
 
 func (node Node) WriteChildren(writer io.Writer) {
-	for _, child := range node.children {
-		child.Write(writer)
+	for i := range node.children {
+		node.children[i].Write(writer)
 	}
 }
 
