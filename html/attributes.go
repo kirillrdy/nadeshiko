@@ -55,3 +55,11 @@ func (node Node) Selected(value string) Node {
 func (node Node) Align(value string) Node {
 	return node.Attribute("align", value)
 }
+
+func (node Node) Action(value string) Node {
+	return node.Attribute("action", value)
+}
+
+func (node Node) Placeholder(value string) Node {
+	return node.Attribute("placeholder", value)
+}
