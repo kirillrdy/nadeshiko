@@ -18,6 +18,10 @@ func Div() Node {
 	return Node{nodeType: "div"}
 }
 
+func Nav() Node {
+	return Node{nodeType: "nav"}
+}
+
 func Head() Node {
 	return Node{nodeType: "head"}
 }
