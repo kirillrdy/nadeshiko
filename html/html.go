@@ -102,6 +102,10 @@ func Img() Node {
 	return Node{nodeType: "img"}
 }
 
+func I() Node {
+	return Node{nodeType: "i"}
+}
+
 func Link() Node {
 	return Node{nodeType: "link"}
 }
