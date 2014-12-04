@@ -114,8 +114,16 @@ func Ul() Node {
 	return Node{nodeType: "ul"}
 }
 
+func Ol() Node {
+	return Node{nodeType: "ol"}
+}
+
 func Li() Node {
 	return Node{nodeType: "li"}
+}
+
+func Hr() Node {
+	return Node{nodeType: "hr"}
 }
 
 func Form() Node {
@@ -132,4 +140,8 @@ func Select() Node {
 
 func Option() Node {
 	return Node{nodeType: "option"}
+}
+
+func I() Node {
+	return Node{nodeType: "i"}
 }
