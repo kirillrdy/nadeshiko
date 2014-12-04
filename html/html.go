@@ -141,7 +141,3 @@ func Select() Node {
 func Option() Node {
 	return Node{nodeType: "option"}
 }
-
-func I() Node {
-	return Node{nodeType: "i"}
-}
