@@ -1,9 +1,6 @@
 package html
 
-import (
-	"bytes"
-	"io"
-)
+import "bytes"
 
 type Node struct {
 	nodeType         string
@@ -13,27 +10,13 @@ type Node struct {
 	headTagMetaMagic string // This is for html doctype
 }
 
-func (node Node) ChildrenAsString() string {
-	var buffer bytes.Buffer
+func (node Node) writeChildrenToBuffer(buffer *bytes.Buffer) {
 	for i := range node.children {
-		buffer.WriteString(node.children[i].String())
-	}
-	return buffer.String()
-}
-
-func (node Node) WriteChildrenToBuffer(buffer *bytes.Buffer) {
-	for i := range node.children {
-		node.children[i].WriteToBuffer(buffer)
+		node.children[i].writeToBuffer(buffer)
 	}
 }
 
-func (node Node) WriteChildren(writer io.Writer) {
-	for i := range node.children {
-		node.children[i].Write(writer)
-	}
-}
-
-func (node Node) AttributesAsString() string {
+func (node Node) attributesAsString() string {
 	var result bytes.Buffer
 	for attribute, value := range node.Attributes {
 		result.WriteString(" ")
@@ -47,41 +30,21 @@ func (node Node) AttributesAsString() string {
 
 func (node Node) String() string {
 	buffer := &bytes.Buffer{}
-	node.WriteToBuffer(buffer)
+	node.writeToBuffer(buffer)
 	return buffer.String()
 }
 
-func (node Node) Write(writer io.Writer) {
-
-	//TODO need to escape html
-	io.WriteString(writer, "<")
-	io.WriteString(writer, node.headTagMetaMagic)
-	io.WriteString(writer, node.nodeType)
-	io.WriteString(writer, node.AttributesAsString())
-	io.WriteString(writer, ">")
-
-	if len(node.children) > 0 {
-		node.WriteChildren(writer)
-	} else {
-		io.WriteString(writer, node.text)
-	}
-
-	io.WriteString(writer, "</")
-	io.WriteString(writer, node.nodeType)
-	io.WriteString(writer, ">")
-
-}
-func (node Node) WriteToBuffer(buffer *bytes.Buffer) {
+func (node Node) writeToBuffer(buffer *bytes.Buffer) {
 
 	//TODO need to escape html
 	buffer.WriteString("<")
 	buffer.WriteString(node.headTagMetaMagic)
 	buffer.WriteString(node.nodeType)
-	buffer.WriteString(node.AttributesAsString())
+	buffer.WriteString(node.attributesAsString())
 	buffer.WriteString(">")
 
 	if len(node.children) > 0 {
-		node.WriteChildrenToBuffer(buffer)
+		node.writeChildrenToBuffer(buffer)
 	} else {
 		buffer.WriteString(node.text)
 	}
