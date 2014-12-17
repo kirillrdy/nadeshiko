@@ -1,6 +1,7 @@
 package html
 
 func Html() Node {
+	//TODO this is wrong
 	return Node{nodeType: "html", headTagMetaMagic: "!DOCTYPE "}
 }
 
