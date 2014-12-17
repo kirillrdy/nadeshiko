@@ -12,8 +12,8 @@ func (node Node) Id(value string) Node {
 	return node.Attribute("id", value)
 }
 
-func (node Node) Class(value string) Node {
-	return node.Attribute("class", value)
+func (node Node) Class(value Class) Node {
+	return node.Attribute("class", string(value))
 }
 
 func (node Node) Type(value string) Node {
