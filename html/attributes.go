@@ -1,5 +1,11 @@
 package html
 
+import (
+	"strings"
+
+	"github.com/sparkymat/webdsl/css"
+)
+
 func (node Node) Src(value string) Node {
 	return node.Attribute("src", value)
 }
@@ -12,8 +18,13 @@ func (node Node) Id(value string) Node {
 	return node.Attribute("id", value)
 }
 
-func (node Node) Class(value string) Node {
-	return node.Attribute("class", value)
+func (node Node) Class(values ...css.Class) Node {
+	var valuesForJoin []string
+	for _, value := range values {
+		valuesForJoin = append(valuesForJoin, string(value))
+	}
+	attrValue := strings.Join(valuesForJoin, " ")
+	return node.Attribute("class", attrValue)
 }
 
 func (node Node) Type(value string) Node {
