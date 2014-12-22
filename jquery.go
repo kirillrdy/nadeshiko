@@ -2,29 +2,31 @@ package nadeshiko
 
 import (
 	"fmt"
-	"io/ioutil"
 	"strconv"
 	"time"
+
+	"github.com/kirillrdy/nadeshiko/html"
+	"github.com/sparkymat/webdsl/css"
 )
 
 type JQuerySelectedElements struct {
-	selector string
+	selector css.Selector
 	document *Document
 }
 
-func (document *Document) JQuery(selector string) (element JQuerySelectedElements) {
+func (document *Document) JQuery(selector css.Selector) (element JQuerySelectedElements) {
 	element.selector = selector
 	element.document = document
 	return
 }
 
-func (element JQuerySelectedElements) Write(content []byte) (int, error) {
-	element.Append(string(content))
-	return len(content), nil
-}
+//func (element JQuerySelectedElements) Write(content []byte) (int, error) {
+//	element.Append(string(content))
+//	return len(content), nil
+//}
 
-func (element JQuerySelectedElements) Append(content string) {
-	element.oneArgumentMethod("append", content)
+func (element JQuerySelectedElements) Append(content html.Node) {
+	element.oneArgumentMethod("append", content.String())
 }
 
 //TODO get rid of this method, and figure out more neat way of chaining jquery methods
@@ -134,14 +136,6 @@ func (element JQuerySelectedElements) GetValChan() chan string {
 	string_to_send := fmt.Sprintf("ws.send( JSON.stringify([\"%s\",$('%s').val()])); ", random_string, element.selector)
 	element.document.SendMessage(string_to_send)
 	return result
-}
-
-func (element JQuerySelectedElements) LoadHtmlFile(filename string) {
-	data, err := ioutil.ReadFile(filename)
-	if err != nil {
-		panic(err)
-	}
-	element.Append(string(data))
 }
 
 ////////////////////////////////////////////////////////////////////////////////////
