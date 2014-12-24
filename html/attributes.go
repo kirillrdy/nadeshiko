@@ -1,6 +1,7 @@
 package html
 
 import (
+	"fmt"
 	"strings"
 
 	"github.com/sparkymat/webdsl/css"
@@ -73,4 +74,12 @@ func (node Node) Action(value string) Node {
 
 func (node Node) Placeholder(value string) Node {
 	return node.Attribute("placeholder", value)
+}
+
+func (node Node) Width(value uint) Node {
+	return node.Attribute("width", fmt.Sprintf("%v", value))
+}
+
+func (node Node) Height(value uint) Node {
+	return node.Attribute("height", fmt.Sprintf("%v", value))
 }
