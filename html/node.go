@@ -4,7 +4,7 @@ import "bytes"
 
 type Node struct {
 	nodeType         string
-	Attributes       map[string]string
+	Attributes       []attribute
 	children         []Node
 	text             string
 	headTagMetaMagic string // This is for html doctype
@@ -18,11 +18,11 @@ func (node Node) writeChildrenToBuffer(buffer *bytes.Buffer) {
 
 func (node Node) attributesAsString() string {
 	var result bytes.Buffer
-	for attribute, value := range node.Attributes {
+	for i := range node.Attributes {
 		result.WriteString(" ")
-		result.WriteString(attribute)
+		result.WriteString(node.Attributes[i].name)
 		result.WriteString("=\"")
-		result.WriteString(value)
+		result.WriteString(node.Attributes[i].value)
 		result.WriteString("\"")
 	}
 	return result.String()
@@ -65,10 +65,7 @@ func (node Node) Children(children ...Node) Node {
 	return node
 }
 
-func (node Node) Attribute(attribute, value string) Node {
-	if node.Attributes == nil {
-		node.Attributes = make(map[string]string)
-	}
-	node.Attributes[attribute] = value
+func (node Node) Attribute(attributeName, value string) Node {
+	node.Attributes = append(node.Attributes, attribute{name: attributeName, value: value})
 	return node
 }
