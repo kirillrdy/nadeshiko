@@ -10,12 +10,12 @@ import (
 )
 
 type JQuerySelectedElements struct {
-	selector css.Selector
+	selector string
 	document *Document
 }
 
 func (document *Document) JQuery(selector css.Selector) (element JQuerySelectedElements) {
-	element.selector = selector
+	element.selector = selector.Selector()
 	element.document = document
 	return
 }
