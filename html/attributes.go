@@ -15,8 +15,8 @@ func (node Node) Style(value string) Node {
 	return node.Attribute("style", value)
 }
 
-func (node Node) Id(value string) Node {
-	return node.Attribute("id", value)
+func (node Node) Id(id css.Id) Node {
+	return node.Attribute("id", string(id))
 }
 
 func (node Node) Class(values ...css.Class) Node {
