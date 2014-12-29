@@ -25,6 +25,10 @@ func (document *Document) JQuery(selector css.Selector) (element JQuerySelectedE
 //	return len(content), nil
 //}
 
+func (element JQuerySelectedElements) Html(content html.Node) {
+	element.oneArgumentMethod("html", content.String())
+}
+
 func (element JQuerySelectedElements) Append(content html.Node) {
 	element.oneArgumentMethod("append", content.String())
 }
