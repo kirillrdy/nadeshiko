@@ -41,6 +41,10 @@ func (routes *routes) Nadeshiko(path string, handler func(*Document)) {
 	routes.Get(path, httpHandler)
 }
 
+func Handler(nadeshikoHandler func(*Document)) http.Handler {
+	return websocket.Handler(websocketServer(nadeshikoHandler))
+}
+
 func (routes *routes) WebSocket(path string, handler func(*Document)) {
 	customeWebsocketServer := websocketServer(handler)
 	routes.Get(path+".websocket", websocket.Handler(customeWebsocketServer).ServeHTTP)
