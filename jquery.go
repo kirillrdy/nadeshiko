@@ -39,12 +39,12 @@ func (element JQuerySelectedElements) PrevRemove() {
 	element.document.SendMessage(string_to_send)
 }
 
-func (element JQuerySelectedElements) Before(content string) {
-	element.oneArgumentMethod("before", content)
+func (element JQuerySelectedElements) Before(content html.Node) {
+	element.oneArgumentMethod("before", content.String())
 }
 
-func (element JQuerySelectedElements) Prepend(content string) {
-	element.oneArgumentMethod("prepend", content)
+func (element JQuerySelectedElements) Prepend(content html.Node) {
+	element.oneArgumentMethod("prepend", content.String())
 }
 
 func (element JQuerySelectedElements) PrependString(content string) {
