@@ -27,6 +27,7 @@ func httpHandler(response http.ResponseWriter, request *http.Request) {
 
 func main() {
 	http.HandleFunc("/", httpHandler)
+	http.HandleFunc(nadeshiko.JQueryPath, nadeshiko.FileServer)
 
 	//XXX for now just have path + .websocket pattern
 	http.Handle("/.websocket", nadeshiko.Handler(handler))
