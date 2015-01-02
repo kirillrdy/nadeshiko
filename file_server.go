@@ -10,7 +10,7 @@ import (
 
 var Verbose bool
 
-func fileServer(w http.ResponseWriter, req *http.Request) {
+func FileServer(w http.ResponseWriter, req *http.Request) {
 	requested_path := req.RequestURI
 
 	if Verbose {

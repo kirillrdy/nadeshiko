@@ -30,7 +30,7 @@ func (h internalHttpHandler) ServeHTTP(writer http.ResponseWriter, request *http
 
 	} else {
 
-		fileServer(writer, request)
+		FileServer(writer, request)
 		return
 	}
 
