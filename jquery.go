@@ -9,6 +9,9 @@ import (
 	"github.com/sparkymat/webdsl/css"
 )
 
+const jqueryFileName = "jquery-2.1.1.min.js"
+const JQueryPath = "/" + jqueryFileName
+
 type JQuerySelectedElements struct {
 	selector string
 	document *Document

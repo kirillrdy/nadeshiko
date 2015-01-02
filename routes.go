@@ -51,10 +51,9 @@ func (routes *routes) WebSocket(path string, handler func(*Document)) {
 }
 
 //TODO move somewhere else
-
 func NadeshikoScripts() []html.Node {
 	return []html.Node{
-		html.Script().Attribute("src", "/jquery-2.1.1.min.js"),
+		html.Script().Attribute("src", JQueryPath),
 		html.Script().Attribute("src", "/jquery-ui-1.8.21.custom.min.js"),
 		html.Script().Attribute("src", "/socket_init.js"),
 	}
