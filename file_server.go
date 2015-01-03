@@ -1,48 +1,24 @@
 package nadeshiko
 
 import (
-	"log"
-	"net/http"
+	"errors"
 	"os"
 	"path"
 	"runtime"
 )
 
-var Verbose bool
+//Turns on extra debugging
+var verbose bool
 
-func FileServer(w http.ResponseWriter, req *http.Request) {
-	requested_path := req.RequestURI
-
-	if Verbose {
-		log.Printf("=======================================================\n")
-		log.Println("Serving static content: " + requested_path)
-	}
-
-	if requested_path == "/" {
-		requested_path = "/index.html"
-	}
-
-	log.Printf("GET: %q \n", requested_path)
-	if Verbose {
-		log.Printf("User-Agent: %s \n\n", req.Header["User-Agent"])
-	}
-
-	w.Header().Set("Server", "Nadeshiko "+NADESHIKO_VERSION)
-
-	file_path := findStaticFile(req.URL.Path)
-	http.ServeFile(w, req, file_path)
-
-}
-
-func findStaticFile(file string) string {
+func findStaticFile(file string) (string, error) {
 	for _, dir := range publicDirs() {
 		path := dir + file
 		if stat, err := os.Stat(path); !os.IsNotExist(err) && !stat.IsDir() {
-			return path
+			return path, nil
 		}
 
 	}
-	return ""
+	return "", errors.New("File not found")
 }
 
 func publicDirs() []string {
@@ -50,8 +26,6 @@ func publicDirs() []string {
 }
 
 func nadeshikoPublicDir() string {
-
-	//TODO check nadeshiko bundle public and then serve from local public is availible
 	_, current_file, _, _ := runtime.Caller(0)
 	package_dir := path.Dir(current_file)
 	return package_dir + "/public"
