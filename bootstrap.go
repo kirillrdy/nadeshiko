@@ -13,6 +13,6 @@ func (document *Document) IncludeBootstrapJsCdn() {
 	document.JQuery(css.Body).Append(html.Script().Src("//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"))
 }
 
-func (element JQuerySelectedElements) Tooltip() {
+func (element JQuerySelector) Tooltip() {
 	element.zeroArgumentMethod("tooltip")
 }

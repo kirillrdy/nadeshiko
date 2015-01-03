@@ -1,8 +1,8 @@
 package nadeshiko
 
-func (element JQuerySelectedElements) Draggable() {
+func (element JQuerySelector) Draggable() {
 	element.zeroArgumentMethod("draggable")
 }
-func (element JQuerySelectedElements) Sortable() {
+func (element JQuerySelector) Sortable() {
 	element.zeroArgumentMethod("sortable")
 }

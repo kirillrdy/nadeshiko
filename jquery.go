@@ -12,86 +12,86 @@ import (
 const jqueryFileName = "jquery-2.1.1.min.js"
 const JQueryPath = "/" + jqueryFileName
 
-type JQuerySelectedElements struct {
+type JQuerySelector struct {
 	selector string
 	document *Document
 }
 
-func (document *Document) JQuery(selector css.Selector) (element JQuerySelectedElements) {
+func (document *Document) JQuery(selector css.Selector) (element JQuerySelector) {
 	element.selector = selector.Selector()
 	element.document = document
 	return
 }
 
-//func (element JQuerySelectedElements) Write(content []byte) (int, error) {
+//func (element JQuerySelector) Write(content []byte) (int, error) {
 //	element.Append(string(content))
 //	return len(content), nil
 //}
 
-func (element JQuerySelectedElements) Html(content html.Node) {
+func (element JQuerySelector) Html(content html.Node) {
 	element.oneArgumentMethod("html", content.String())
 }
 
-func (element JQuerySelectedElements) Append(content html.Node) {
+func (element JQuerySelector) Append(content html.Node) {
 	element.oneArgumentMethod("append", content.String())
 }
 
 //TODO get rid of this method, and figure out more neat way of chaining jquery methods
-func (element JQuerySelectedElements) PrevRemove() {
+func (element JQuerySelector) PrevRemove() {
 	string_to_send := fmt.Sprintf("$('%s').prev().remove()", element.selector)
 	element.document.SendMessage(string_to_send)
 }
 
-func (element JQuerySelectedElements) Before(content html.Node) {
+func (element JQuerySelector) Before(content html.Node) {
 	element.oneArgumentMethod("before", content.String())
 }
 
-func (element JQuerySelectedElements) Prepend(content html.Node) {
+func (element JQuerySelector) Prepend(content html.Node) {
 	element.oneArgumentMethod("prepend", content.String())
 }
 
-func (element JQuerySelectedElements) PrependString(content string) {
+func (element JQuerySelector) PrependString(content string) {
 	element.oneArgumentMethod("prepend", content)
 }
 
-func (element JQuerySelectedElements) SetVal(new_value string) {
+func (element JQuerySelector) SetVal(new_value string) {
 	element.oneArgumentMethod("val", new_value)
 }
 
-func (element JQuerySelectedElements) SetCss(attr, new_value string) {
+func (element JQuerySelector) SetCss(attr, new_value string) {
 	element.twoArgumentMethod("css", attr, new_value)
 }
 
-func (element JQuerySelectedElements) SetAttr(attr, new_value string) {
+func (element JQuerySelector) SetAttr(attr, new_value string) {
 	element.twoArgumentMethod("attr", attr, new_value)
 }
 
-func (element JQuerySelectedElements) SetText(new_value string) {
+func (element JQuerySelector) SetText(new_value string) {
 	element.oneArgumentMethod("text", new_value)
 }
 
-func (element JQuerySelectedElements) Empty() {
+func (element JQuerySelector) Empty() {
 	element.zeroArgumentMethod("empty")
 }
 
-func (element JQuerySelectedElements) Remove() {
+func (element JQuerySelector) Remove() {
 	element.zeroArgumentMethod("remove")
 }
 
-func (element JQuerySelectedElements) Click(callback func()) {
+func (element JQuerySelector) Click(callback func()) {
 	element.zeroArgumentMethodWithCallback("click", callback)
 }
 
-func (element JQuerySelectedElements) On(eventName string, callback func()) {
+func (element JQuerySelector) On(eventName string, callback func()) {
 	element.oneArgumentMethodWithCallback("on", eventName, callback)
 }
 
-func (element JQuerySelectedElements) Change(callback func()) {
+func (element JQuerySelector) Change(callback func()) {
 	element.zeroArgumentMethodWithCallback("change", callback)
 }
 
 //TODO refactor function body, not DRY
-func (element JQuerySelectedElements) Keypress(callback func(int)) {
+func (element JQuerySelector) Keypress(callback func(int)) {
 
 	callback_id := generateCallbackId()
 
@@ -105,7 +105,7 @@ func (element JQuerySelectedElements) Keypress(callback func(int)) {
 }
 
 //TODO refactor function body, not DRY
-func (element JQuerySelectedElements) Keydown(callback func(int)) {
+func (element JQuerySelector) Keydown(callback func(int)) {
 
 	callback_id := generateCallbackId()
 
@@ -118,7 +118,7 @@ func (element JQuerySelectedElements) Keydown(callback func(int)) {
 	element.document.SendMessage(string_to_send)
 }
 
-func (element JQuerySelectedElements) GetVal(callback func(string)) {
+func (element JQuerySelector) GetVal(callback func(string)) {
 	random_string := generateCallbackId()
 
 	callbacks[random_string] = overSocketCallback{connection: element.document.websocket, oneTime: true, callback: func(vals ...string) {
@@ -129,7 +129,7 @@ func (element JQuerySelectedElements) GetVal(callback func(string)) {
 	element.document.SendMessage(string_to_send)
 }
 
-func (element JQuerySelectedElements) GetValChan() chan string {
+func (element JQuerySelector) GetValChan() chan string {
 	random_string := generateCallbackId()
 
 	result := make(chan string)
@@ -155,25 +155,25 @@ func generateCallbackId() string {
 	return fmt.Sprintf("%x", random_number)
 }
 
-func (element JQuerySelectedElements) twoArgumentMethod(name, param1, param2 string) {
+func (element JQuerySelector) twoArgumentMethod(name, param1, param2 string) {
 	quoted1 := strconv.Quote(param1)
 	quoted2 := strconv.Quote(param2)
 	string_to_send := fmt.Sprintf("$('%s').%s(%s,%s)", element.selector, name, quoted1, quoted2)
 	element.document.SendMessage(string_to_send)
 }
 
-func (element JQuerySelectedElements) oneArgumentMethod(name string, param string) {
+func (element JQuerySelector) oneArgumentMethod(name string, param string) {
 	string_content := strconv.Quote(param)
 	string_to_send := fmt.Sprintf("$('%s').%s(%s)", element.selector, name, string_content)
 	element.document.SendMessage(string_to_send)
 }
 
-func (element JQuerySelectedElements) zeroArgumentMethod(name string) {
+func (element JQuerySelector) zeroArgumentMethod(name string) {
 	string_to_send := fmt.Sprintf("$('%s').%s()", element.selector, name)
 	element.document.SendMessage(string_to_send)
 }
 
-func (element JQuerySelectedElements) oneArgumentMethodWithCallback(name string, arg1 string, callback func()) {
+func (element JQuerySelector) oneArgumentMethodWithCallback(name string, arg1 string, callback func()) {
 	callback_id := generateCallbackId()
 
 	callbacks[callback_id] = overSocketCallback{connection: element.document.websocket, oneTime: false, callback: func(...string) {
@@ -184,7 +184,7 @@ func (element JQuerySelectedElements) oneArgumentMethodWithCallback(name string,
 	element.document.SendMessage(string_to_send)
 }
 
-func (element JQuerySelectedElements) zeroArgumentMethodWithCallback(name string, callback func()) {
+func (element JQuerySelector) zeroArgumentMethodWithCallback(name string, callback func()) {
 	callback_id := generateCallbackId()
 
 	callbacks[callback_id] = overSocketCallback{connection: element.document.websocket, oneTime: false, callback: func(...string) {
