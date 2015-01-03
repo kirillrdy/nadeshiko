@@ -1,3 +1,12 @@
+/*
+Built in Router and Server
+
+Nadeshiko comes with own very simple router, and own server.
+
+Heading
+
+More data
+*/
 package nadeshiko
 
 import (
@@ -9,22 +18,22 @@ import (
 	"code.google.com/p/go.net/websocket"
 )
 
-const GET = "GET"
-const POST = "POST"
+const get = "GET"
+const post = "POST"
 
 type routes []Route
 
-func (routes *routes) Get(path string, handler func(http.ResponseWriter, *http.Request)) {
-	route := Route{path, GET, handler}
+func (routes *routes) get(path string, handler func(http.ResponseWriter, *http.Request)) {
+	route := Route{path, get, handler}
 	*routes = append(*routes, route)
 }
 
-func (routes *routes) Post(path string, handler func(http.ResponseWriter, *http.Request)) {
-	route := Route{path, POST, handler}
+func (routes *routes) post(path string, handler func(http.ResponseWriter, *http.Request)) {
+	route := Route{path, post, handler}
 	*routes = append(*routes, route)
 }
 
-func (routes *routes) Nadeshiko(path string, handler func(*Document)) {
+func (routes *routes) nadeshiko(path string, handler func(*Document)) {
 	httpHandler := func(response http.ResponseWriter, request *http.Request) {
 		page := html.Html().Children(
 			html.Head().Children(
@@ -37,24 +46,16 @@ func (routes *routes) Nadeshiko(path string, handler func(*Document)) {
 
 	customeWebsocketServer := websocketServer(handler)
 
-	routes.Get(path+".websocket", websocket.Handler(customeWebsocketServer).ServeHTTP)
-	routes.Get(path, httpHandler)
+	//TODO fix .websocket path
+	routes.get(path+".websocket", websocket.Handler(customeWebsocketServer).ServeHTTP)
+	routes.get(path, httpHandler)
 }
 
 func Handler(nadeshikoHandler func(*Document)) http.Handler {
 	return websocket.Handler(websocketServer(nadeshikoHandler))
 }
 
-func (routes *routes) WebSocket(path string, handler func(*Document)) {
+func (routes *routes) webSocket(path string, handler func(*Document)) {
 	customeWebsocketServer := websocketServer(handler)
-	routes.Get(path+".websocket", websocket.Handler(customeWebsocketServer).ServeHTTP)
-}
-
-//TODO move somewhere else
-func NadeshikoScripts() []html.Node {
-	return []html.Node{
-		html.Script().Attribute("src", JQueryPath),
-		html.Script().Attribute("src", "/jquery-ui-1.8.21.custom.min.js"),
-		html.Script().Attribute("src", "/socket_init.js"),
-	}
+	routes.get(path+".websocket", websocket.Handler(customeWebsocketServer).ServeHTTP)
 }
