@@ -46,7 +46,7 @@ func (document *Document) SendMessage(message string) {
 	// perhaps we can do this when we change activities
 	//TODO handle errors other than send on closed connection
 
-	if Verbose {
+	if verbose {
 		log.Printf("send: %s\n", message)
 	}
 }

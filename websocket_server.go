@@ -30,7 +30,7 @@ func websocketServer(handler func(*Document)) func(*websocket.Conn) {
 				break
 			}
 
-			if Verbose {
+			if verbose {
 				quoted_contet := strconv.Quote(buf)
 				log.Printf("received: %s\n", quoted_contet)
 			}
@@ -43,12 +43,12 @@ func websocketServer(handler func(*Document)) func(*websocket.Conn) {
 				go func() {
 					callbackStruct.callback(json_array...)
 					if callbackStruct.oneTime {
-						if Verbose {
+						if verbose {
 							log.Printf("Removing one-time callback \n")
 						}
 						deleteCallback(json_array[0])
 					}
-					if Verbose {
+					if verbose {
 						log.Printf("Current callbacks count %d \n", len(callbacks))
 					}
 				}()
@@ -65,14 +65,14 @@ func websocketServer(handler func(*Document)) func(*websocket.Conn) {
 				log.Fatalln("This should not happen")
 			}
 			if callbackStruct.connection == connection {
-				if Verbose {
+				if verbose {
 					log.Printf("Removing callback %s for disconnected client\n", callback_id)
 				}
 				deleteCallback(callback_id)
 			}
 		}
 
-		if Verbose {
+		if verbose {
 			log.Printf("Current callbacks count %d \n", len(callbacks))
 		}
 	}
