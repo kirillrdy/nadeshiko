@@ -83,3 +83,7 @@ func (node Node) Width(value uint) Node {
 func (node Node) Height(value uint) Node {
 	return node.Attribute("height", fmt.Sprintf("%v", value))
 }
+
+func (node Node) Title(value string) Node {
+	return node.Attribute("title", fmt.Sprintf("%v", value))
+}
