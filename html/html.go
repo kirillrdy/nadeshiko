@@ -142,3 +142,7 @@ func Select() Node {
 func Option() Node {
 	return Node{nodeType: "option"}
 }
+
+func Textarea() Node {
+	return Node{nodeType: "textarea"}
+}
