@@ -85,5 +85,33 @@ func (node Node) Height(value uint) Node {
 }
 
 func (node Node) Title(value string) Node {
-	return node.Attribute("title", fmt.Sprintf("%v", value))
+	return node.Attribute("title", value)
+}
+
+func (node Node) Controls() Node {
+	return node.Attribute("controls", "")
+}
+
+func (node Node) Autoplay() Node {
+	return node.Attribute("autoplay", "")
+}
+
+func (node Node) Label(value string) Node {
+	return node.Attribute("label", value)
+}
+
+func (node Node) Kind(value string) Node {
+	return node.Attribute("kind", value)
+}
+
+func (node Node) Srclang(value string) Node {
+	return node.Attribute("srclang", value)
+}
+
+func (node Node) Default() Node {
+	return node.Attribute("default", "")
+}
+
+func (node Node) Multiple() Node {
+	return node.Attribute("multiple", "")
 }
