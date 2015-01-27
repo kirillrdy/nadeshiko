@@ -146,3 +146,15 @@ func Option() Node {
 func Textarea() Node {
 	return Node{nodeType: "textarea"}
 }
+
+func Video() Node {
+	return Node{nodeType: "video"}
+}
+
+func Source() Node {
+	return Node{nodeType: "source"}
+}
+
+func Track() Node {
+	return Node{nodeType: "track"}
+}
