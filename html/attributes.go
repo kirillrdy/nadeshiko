@@ -115,3 +115,7 @@ func (node Node) Default() Node {
 func (node Node) Multiple() Node {
 	return node.Attribute("multiple", "")
 }
+
+func (node Node) Accept(value string) Node {
+	return node.Attribute("accept", value)
+}
