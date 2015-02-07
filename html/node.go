@@ -60,6 +60,10 @@ func (node Node) Text(text string) Node {
 	return node
 }
 
+func (node *Node) Append(children ...Node) {
+	node.children = append(node.children, children...)
+}
+
 func (node Node) Children(children ...Node) Node {
 	node.children = append(node.children, children...)
 	return node
