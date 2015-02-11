@@ -1,4 +1,5 @@
 /*
+Package nadeshiko routes
 Built in Router and Server
 
 Nadeshiko comes with own very simple router, and own server.
@@ -21,15 +22,15 @@ import (
 const get = "GET"
 const post = "POST"
 
-type routes []Route
+type routes []route
 
 func (routes *routes) get(path string, handler func(http.ResponseWriter, *http.Request)) {
-	route := Route{path, get, handler}
+	route := route{path, get, handler}
 	*routes = append(*routes, route)
 }
 
 func (routes *routes) post(path string, handler func(http.ResponseWriter, *http.Request)) {
-	route := Route{path, post, handler}
+	route := route{path, post, handler}
 	*routes = append(*routes, route)
 }
 
@@ -51,6 +52,7 @@ func (routes *routes) nadeshiko(path string, handler func(*Document)) {
 	routes.get(path, httpHandler)
 }
 
+// Handler returns returns http.Handler for given nadeshiko handler so that it can be used with router of your choice
 func Handler(nadeshikoHandler func(*Document)) http.Handler {
 	return websocket.Handler(websocketServer(nadeshikoHandler))
 }
