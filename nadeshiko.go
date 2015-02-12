@@ -80,14 +80,14 @@ func Start() {
 func Scripts() []html.Node {
 	return []html.Node{
 		html.Script().Attribute("src", jquery.WebPath),
-		html.Script().Attribute("src", NadeshikoJsWebPath),
+		html.Script().Attribute("src", JsWebPath),
 	}
 }
 
 // Where to serve nadeshiko javascript file from
-const NadeshikoJsWebPath = "/socket_init.js"
+const JsWebPath = "/socket_init.js"
 
 //JsHandler serves javascript file requires for having nadeshiko running
 func JsHandler(response http.ResponseWriter, request *http.Request) {
-	http.ServeFile(response, request, nadeshikoPublicDir()+NadeshikoJsWebPath)
+	http.ServeFile(response, request, nadeshikoPublicDir()+JsWebPath)
 }
