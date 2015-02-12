@@ -26,7 +26,7 @@ func publicDirs() []string {
 }
 
 func nadeshikoPublicDir() string {
-	_, current_file, _, _ := runtime.Caller(0)
-	package_dir := path.Dir(current_file)
-	return package_dir + "/public"
+	_, currentFile, _, _ := runtime.Caller(0)
+	packageDir := path.Dir(currentFile)
+	return packageDir + "/public"
 }
