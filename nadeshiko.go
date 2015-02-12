@@ -53,7 +53,8 @@ func startWithPortVerbose(port int, verbose bool) {
 	//TODO find better place to initialise defaultRoutes or get rid of defaultRoutes
 	defaultRoutes.get(jquery.WebPath, jquery.FileHandler)
 
-	err := http.ListenAndServe(listenOn, context.ClearHandler(internalHttpHandler{routes: defaultRoutes}))
+	//TODO get rid of gorilla, rid of own router
+	err := http.ListenAndServe(listenOn, context.ClearHandler(internalHttpHandler{}))
 	if err != nil {
 		log.Fatalln("ListenAndServe: " + err.Error())
 	}

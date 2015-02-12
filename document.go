@@ -10,31 +10,31 @@ import (
 //Document repesents clients document ( browser tab )
 //is used for sending low level messages to the client
 type Document struct {
-	websocket           *websocket.Conn
-	current_transaction []string
-	in_transaction      bool
-	Error               error
-	ClientDisconnected  bool
+	websocket          *websocket.Conn
+	currentTransaction []string
+	inTransaction      bool
+	Error              error
+	ClientDisconnected bool
 }
 
 //TODO not thread safe
 func (document *Document) StartBuffer() {
-	document.in_transaction = true
+	document.inTransaction = true
 }
 
 //TODO not thread safe
 func (document *Document) FlushBuffer() {
-	document.in_transaction = false
-	if len(document.current_transaction) != 0 {
-		document.sendMessage(strings.Join(document.current_transaction, ";"))
-		document.current_transaction = []string{}
+	document.inTransaction = false
+	if len(document.currentTransaction) != 0 {
+		document.sendMessage(strings.Join(document.currentTransaction, ";"))
+		document.currentTransaction = []string{}
 	}
 }
 
 func (document *Document) sendMessage(message string) {
 
-	if document.in_transaction {
-		document.current_transaction = append(document.current_transaction, message)
+	if document.inTransaction {
+		document.currentTransaction = append(document.currentTransaction, message)
 	} else {
 		err := websocket.Message.Send(document.websocket, message)
 

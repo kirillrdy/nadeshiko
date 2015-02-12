@@ -7,7 +7,6 @@ import (
 )
 
 type internalHttpHandler struct {
-	routes routes
 }
 
 func (h internalHttpHandler) ServeHTTP(response http.ResponseWriter, request *http.Request) {
@@ -17,7 +16,7 @@ func (h internalHttpHandler) ServeHTTP(response http.ResponseWriter, request *ht
 
 	file_path, err := findStaticFile(request.URL.Path)
 	if err != nil {
-		for _, route := range h.routes {
+		for _, route := range defaultRoutes {
 
 			//TODO also match request types
 			if request.URL.Path == route.Path && request.Method == route.Method {
