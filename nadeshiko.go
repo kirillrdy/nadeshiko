@@ -1,4 +1,4 @@
-//Nadeshiko is my toy library for building interesting web apps
+//Package nadeshiko is my toy library for building interesting web apps
 /*
 Examples
 
@@ -22,21 +22,25 @@ const Version = "0.1.0"
 
 var defaultRoutes routes
 
+//Get adds handler to a GET request
 func Get(path string, handler func(http.ResponseWriter, *http.Request)) {
 	defaultRoutes.get(path, handler)
 }
 
+//Post adds handler to a POST request
 func Post(path string, handler func(http.ResponseWriter, *http.Request)) {
 	defaultRoutes.post(path, handler)
 }
 
+//Nadeshiko adds nadeshiko handler to a given path
 func Nadeshiko(path string, handler func(*Document)) {
 	defaultRoutes.nadeshiko(path, handler)
 }
 
-func WebSocket(path string, handler func(*Document)) {
-	defaultRoutes.webSocket(path, handler)
-}
+//TODO Do we actually need this ? should this be internal
+//func WebSocket(path string, handler func(*Document)) {
+//	defaultRoutes.webSocket(path, handler)
+//}
 
 func startWithPortVerbose(port int, verbose bool) {
 
@@ -55,29 +59,34 @@ func startWithPortVerbose(port int, verbose bool) {
 	}
 }
 
+//StartWithPortVerbose starts server on a given port in verbose mode
 func StartWithPortVerbose(port int) {
 	startWithPortVerbose(port, true)
 }
 
+//StartWithPort starts server on a given port in non verbose mode
 func StartWithPort(port int) {
 	startWithPortVerbose(port, false)
 }
 
-//Starts server in non verbose mode and on port 3000
+//Start starts server in non verbose mode and on port 3000
 func Start() {
 	startWithPortVerbose(3000, false)
 }
 
+//Scripts returns html.Nodes that are need to be placed on the page for nadeshiko to work
 //TODO move somewhere else
-func NadeshikoScripts() []html.Node {
+func Scripts() []html.Node {
 	return []html.Node{
 		html.Script().Attribute("src", jquery.WebPath),
 		html.Script().Attribute("src", NadeshikoJsWebPath),
 	}
 }
 
+// Where to serve nadeshiko javascript file from
 const NadeshikoJsWebPath = "/socket_init.js"
 
-func NadeshikoJsHandler(response http.ResponseWriter, request *http.Request) {
+//JsHandler serves javascript file requires for having nadeshiko running
+func JsHandler(response http.ResponseWriter, request *http.Request) {
 	http.ServeFile(response, request, nadeshikoPublicDir()+NadeshikoJsWebPath)
 }

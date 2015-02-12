@@ -38,7 +38,7 @@ func (routes *routes) nadeshiko(path string, handler func(*Document)) {
 	httpHandler := func(response http.ResponseWriter, request *http.Request) {
 		page := html.Html().Children(
 			html.Head().Children(
-				NadeshikoScripts()...,
+				Scripts()...,
 			),
 			html.Body(),
 		)

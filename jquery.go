@@ -25,18 +25,13 @@ func (document *Document) JQuery(selector css.Selector) (element JQuerySelector)
 //	return len(content), nil
 //}
 
+// Html
 func (element JQuerySelector) Html(content html.Node) {
 	element.oneArgumentMethod("html", content.String())
 }
 
 func (element JQuerySelector) Append(content html.Node) {
 	element.oneArgumentMethod("append", content.String())
-}
-
-//TODO get rid of this method, and figure out more neat way of chaining jquery methods
-func (element JQuerySelector) PrevRemove() {
-	string_to_send := fmt.Sprintf("$('%s').prev().remove()", element.selector)
-	element.document.SendMessage(string_to_send)
 }
 
 func (element JQuerySelector) Before(content html.Node) {
@@ -171,23 +166,23 @@ func (element JQuerySelector) zeroArgumentMethod(name string) {
 }
 
 func (element JQuerySelector) oneArgumentMethodWithCallback(name string, arg1 string, callback func()) {
-	callback_id := generateCallbackId()
+	callbackID := generateCallbackId()
 
-	callbacks[callback_id] = overSocketCallback{connection: element.document.websocket, oneTime: false, callback: func(...string) {
+	callbacks[callbackID] = overSocketCallback{connection: element.document.websocket, oneTime: false, callback: func(...string) {
 		callback()
 	}}
 
-	string_to_send := fmt.Sprintf("$('%s').%s('%s', function(){ ws.send(JSON.stringify([\"%s\"])); });", element.selector, name, arg1, callback_id)
-	element.document.SendMessage(string_to_send)
+	stringToSend := fmt.Sprintf("$('%s').%s('%s', function(){ ws.send(JSON.stringify([\"%s\"])); });", element.selector, name, arg1, callbackID)
+	element.document.SendMessage(stringToSend)
 }
 
 func (element JQuerySelector) zeroArgumentMethodWithCallback(name string, callback func()) {
-	callback_id := generateCallbackId()
+	callbackID := generateCallbackId()
 
-	callbacks[callback_id] = overSocketCallback{connection: element.document.websocket, oneTime: false, callback: func(...string) {
+	callbacks[callbackID] = overSocketCallback{connection: element.document.websocket, oneTime: false, callback: func(...string) {
 		callback()
 	}}
 
-	string_to_send := fmt.Sprintf("$('%s').%s(function(){ ws.send(JSON.stringify([\"%s\"])); });", element.selector, name, callback_id)
-	element.document.SendMessage(string_to_send)
+	stringToSend := fmt.Sprintf("$('%s').%s(function(){ ws.send(JSON.stringify([\"%s\"])); });", element.selector, name, callbackID)
+	element.document.SendMessage(stringToSend)
 }
