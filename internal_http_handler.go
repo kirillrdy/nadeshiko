@@ -6,23 +6,23 @@ import (
 	"time"
 )
 
-type internalHttpHandler struct {
+type internalHTTPHandler struct {
 }
 
-func (h internalHttpHandler) ServeHTTP(response http.ResponseWriter, request *http.Request) {
-	start_of_request := time.Now()
+//Going to get rid of internal router soon anyways
+func (h internalHTTPHandler) ServeHTTP(response http.ResponseWriter, request *http.Request) {
+	startOfRequest := time.Now()
 
 	response.Header().Set("Server", "Nadeshiko "+Version)
 
-	file_path, err := findStaticFile(request.URL.Path)
+	filePath, err := findStaticFile(request.URL.Path)
 	if err != nil {
 		for _, route := range defaultRoutes {
 
-			//TODO also match request types
 			if request.URL.Path == route.Path && request.Method == route.Method {
 				log.Printf("%s: %q \n", request.Method, request.URL.Path)
 				route.Handler(response, request)
-				log.Printf("time taken: %s \n\n", time.Since(start_of_request).String())
+				log.Printf("time taken: %s \n\n", time.Since(startOfRequest).String())
 				return
 			}
 		}
@@ -30,7 +30,7 @@ func (h internalHttpHandler) ServeHTTP(response http.ResponseWriter, request *ht
 		http.NotFound(response, request)
 
 	} else {
-		http.ServeFile(response, request, file_path)
+		http.ServeFile(response, request, filePath)
 		return
 	}
 

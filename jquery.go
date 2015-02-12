@@ -27,7 +27,6 @@ func (document *Document) JQuery(selector css.Selector) (element jQuerySelector)
 //	return len(content), nil
 //}
 
-// HTML
 func (element jQuerySelector) HTML(content html.Node) {
 	element.oneArgumentMethod("html", content.String())
 }

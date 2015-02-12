@@ -15,8 +15,8 @@ type overSocketCallback struct {
 var callbacks = make(map[string]overSocketCallback)
 var callbacksMutex sync.Mutex
 
-func deleteCallback(callbackId string) {
+func deleteCallback(callbackID string) {
 	callbacksMutex.Lock()
-	delete(callbacks, callbackId)
+	delete(callbacks, callbackID)
 	callbacksMutex.Unlock()
 }
