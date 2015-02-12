@@ -11,14 +11,14 @@ import (
 )
 
 func handler(document *nadeshiko.Document) {
-	document.JQuery(css.Body).Html(html.H1().Text("Hello World !!!"))
+	document.JQuery(css.Body).HTML(html.H1().Text("Hello World !!!"))
 }
 
 func httpHandler(response http.ResponseWriter, request *http.Request) {
 
 	page := html.Html().Children(
 		html.Head().Children(
-			nadeshiko.NadeshikoScripts()...,
+			nadeshiko.Scripts()...,
 		),
 		html.Body(),
 	)
@@ -30,7 +30,7 @@ func main() {
 	http.HandleFunc("/", httpHandler)
 
 	http.HandleFunc(jquery.WebPath, jquery.FileHandler)
-	http.HandleFunc(nadeshiko.NadeshikoJsWebPath, nadeshiko.NadeshikoJsHandler)
+	http.HandleFunc(nadeshiko.JsWebPath, nadeshiko.JsHandler)
 
 	//XXX for now just have path + .websocket pattern
 	http.Handle("/.websocket", nadeshiko.Handler(handler))

@@ -7,7 +7,7 @@ import (
 )
 
 func handler(document *nadeshiko.Document) {
-	document.JQuery(css.Body).Html(html.H1().Text("Hello World !!!"))
+	document.JQuery(css.Body).HTML(html.H1().Text("Hello World !!!"))
 }
 
 func main() {
