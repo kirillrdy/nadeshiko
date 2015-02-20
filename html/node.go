@@ -10,12 +10,6 @@ type Node struct {
 	headTagMetaMagic string // This is for html doctype
 }
 
-func (node Node) writeChildrenToBuffer(buffer *bytes.Buffer) {
-	for i := range node.children {
-		node.children[i].writeToBuffer(buffer)
-	}
-}
-
 func (node Node) attributesAsString() string {
 	var result bytes.Buffer
 	for i := range node.Attributes {
@@ -44,7 +38,9 @@ func (node Node) writeToBuffer(buffer *bytes.Buffer) {
 	buffer.WriteString(">")
 
 	if len(node.children) > 0 {
-		node.writeChildrenToBuffer(buffer)
+		for i := range node.children {
+			node.children[i].writeToBuffer(buffer)
+		}
 	} else {
 		buffer.WriteString(node.text)
 	}
