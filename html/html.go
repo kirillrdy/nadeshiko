@@ -158,3 +158,15 @@ func Source() Node {
 func Track() Node {
 	return Node{nodeType: "track"}
 }
+
+func Footer() Node {
+	return Node{nodeType: "footer"}
+}
+
+func H4() Node {
+	return Node{nodeType: "h4"}
+}
+
+func H5() Node {
+	return Node{nodeType: "h5"}
+}
