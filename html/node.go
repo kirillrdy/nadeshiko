@@ -1,6 +1,9 @@
 package html
 
-import "bytes"
+import (
+	"bytes"
+	"io"
+)
 
 type Node struct {
 	nodeType         string
@@ -20,6 +23,10 @@ func (node Node) attributesAsString() string {
 		result.WriteString("\"")
 	}
 	return result.String()
+}
+
+func (node Node) WriteTo(writer io.Writer) {
+	io.WriteString(writer, node.String())
 }
 
 func (node Node) String() string {
