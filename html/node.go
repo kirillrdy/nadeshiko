@@ -37,9 +37,11 @@ func (node Node) String() string {
 
 func (node Node) writeToBuffer(buffer *bytes.Buffer) {
 
-	//TODO need to escape html
+	//TODO peformance bench this 'if' vs 'if len' vs no if
+	if node.headTagMetaMagic != "" {
+		buffer.WriteString(node.headTagMetaMagic)
+	}
 	buffer.WriteString("<")
-	buffer.WriteString(node.headTagMetaMagic)
 	buffer.WriteString(node.nodeType)
 	buffer.WriteString(node.attributesAsString())
 	buffer.WriteString(">")
