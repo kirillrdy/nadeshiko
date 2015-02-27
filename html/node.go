@@ -2,6 +2,7 @@ package html
 
 import (
 	"bytes"
+	golang_html "html"
 	"io"
 )
 
@@ -16,6 +17,7 @@ type Node struct {
 func (node Node) attributesAsString() string {
 	var result bytes.Buffer
 	for i := range node.Attributes {
+		//Note this is done for performance
 		result.WriteString(" ")
 		result.WriteString(node.Attributes[i].name)
 		result.WriteString("=\"")
@@ -60,7 +62,14 @@ func (node Node) writeToBuffer(buffer *bytes.Buffer) {
 
 }
 
+// Text will excape any input as html
 func (node Node) Text(text string) Node {
+	node.text = golang_html.EscapeString(text)
+	return node
+}
+
+// Same as Text() but doesn't escape html
+func (node Node) TextUnsafe(text string) Node {
 	node.text = text
 	return node
 }
