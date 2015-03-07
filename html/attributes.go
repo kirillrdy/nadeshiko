@@ -20,11 +20,24 @@ func (node Node) Id(id css.Id) Node {
 }
 
 func (node Node) Class(values ...css.Class) Node {
-	var valuesForJoin []string
-	for _, value := range values {
-		valuesForJoin = append(valuesForJoin, string(value))
+	var hash map[string]struct{}
+
+	existingClasses := strings.Split(node.Attributes["class"], " ")
+
+	for _, value := range existingClasses {
+		hash[value] = struct{}{}
 	}
-	attrValue := strings.Join(valuesForJoin, " ")
+
+	for _, value := range values {
+		hash[string(value)] = struct{}{}
+	}
+
+	var classes []string
+	for key, _ := range hash {
+		classes = append(classes, key)
+	}
+
+	attrValue := strings.Join(classes, " ")
 	return node.Attribute("class", attrValue)
 }
 
