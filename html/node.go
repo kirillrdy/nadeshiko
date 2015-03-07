@@ -84,6 +84,10 @@ func (node Node) Children(children ...Node) Node {
 }
 
 func (node Node) Attribute(attributeName, value string) Node {
+	if node.Attributes == nil {
+		node.Attributes = make(map[string]string)
+	}
+
 	node.Attributes[attributeName] = value
 	return node
 }
