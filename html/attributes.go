@@ -20,7 +20,7 @@ func (node Node) Id(id css.Id) Node {
 }
 
 func (node Node) Class(values ...css.Class) Node {
-	var hash map[string]struct{}
+	hash := make(map[string]struct{})
 
 	existingClasses := strings.Split(node.Attributes["class"], " ")
 
