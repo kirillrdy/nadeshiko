@@ -8,7 +8,7 @@ import (
 
 type Node struct {
 	nodeType         string
-	Attributes       []attribute
+	Attributes       []Attribute
 	children         []Node
 	text             string
 	headTagMetaMagic string // This is for html doctype
@@ -19,9 +19,9 @@ func (node Node) attributesAsString() string {
 	for i := range node.Attributes {
 		//Note this is done for performance
 		result.WriteString(" ")
-		result.WriteString(node.Attributes[i].name)
+		result.WriteString(node.Attributes[i].Name)
 		result.WriteString("=\"")
-		result.WriteString(node.Attributes[i].value)
+		result.WriteString(node.Attributes[i].Value)
 		result.WriteString("\"")
 	}
 	return result.String()
@@ -84,6 +84,6 @@ func (node Node) Children(children ...Node) Node {
 }
 
 func (node Node) Attribute(attributeName, value string) Node {
-	node.Attributes = append(node.Attributes, attribute{name: attributeName, value: value})
+	node.Attributes = append(node.Attributes, Attribute{Name: attributeName, Value: value})
 	return node
 }

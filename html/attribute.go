@@ -1,6 +1,6 @@
 package html
 
-type attribute struct {
-	name  string
-	value string
+type Attribute struct {
+	Name  string
+	Value string
 }
