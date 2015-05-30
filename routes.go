@@ -35,10 +35,13 @@ func (routes *routes) post(path string, handler func(http.ResponseWriter, *http.
 }
 
 func (routes *routes) nadeshiko(path string, handler func(*Document)) {
+
+	websocketPath := path + ".websocket"
+
 	httpHandler := func(response http.ResponseWriter, request *http.Request) {
 		page := html.Html().Children(
 			html.Head().Children(
-				Scripts()...,
+				Scripts(websocketPath)...,
 			),
 			html.Body(),
 		)
@@ -48,7 +51,7 @@ func (routes *routes) nadeshiko(path string, handler func(*Document)) {
 	customeWebsocketServer := websocketServer(handler)
 
 	//TODO fix .websocket path
-	routes.get(path+".websocket", websocket.Handler(customeWebsocketServer).ServeHTTP)
+	routes.get(websocketPath, websocket.Handler(customeWebsocketServer).ServeHTTP)
 	routes.get(path, httpHandler)
 }
 
