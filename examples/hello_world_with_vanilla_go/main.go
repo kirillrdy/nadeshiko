@@ -1,7 +1,6 @@
 package main
 
 import (
-	"io"
 	"net/http"
 
 	"github.com/kirillrdy/nadeshiko"
@@ -10,29 +9,20 @@ import (
 	"github.com/sparkymat/webdsl/css"
 )
 
-func handler(document *nadeshiko.Document) {
+const rootPath string = "/"
+const websocketPath string = "/.websocket"
+
+func helloWorldHandler(document *nadeshiko.Document) {
 	document.JQuery(css.Body).HTML(html.H1().Text("Hello World !!!"))
 }
 
 func httpHandler(response http.ResponseWriter, request *http.Request) {
-
-	page := html.Html().Children(
-		html.Head().Children(
-			nadeshiko.Scripts()...,
-		),
-		html.Body(),
-	)
-	io.WriteString(response, page.String())
-
+	nadeshiko.Page(websocketPath).WriteTo(response)
 }
 
 func main() {
-	http.HandleFunc("/", httpHandler)
-
-	http.HandleFunc(jquery.WebPath, jquery.FileHandler)
-	http.HandleFunc(nadeshiko.JsWebPath, nadeshiko.JsHandler)
-
-	//XXX for now just have path + .websocket pattern
-	http.Handle("/.websocket", nadeshiko.Handler(handler))
+	http.DefaultServeMux.HandleFunc(rootPath, httpHandler)
+	http.DefaultServeMux.HandleFunc(jquery.WebPath, jquery.FileHandler)
+	http.DefaultServeMux.Handle(websocketPath, nadeshiko.Handler(helloWorldHandler))
 	http.ListenAndServe(":3000", nil)
 }
