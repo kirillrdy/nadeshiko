@@ -77,10 +77,11 @@ func Start() {
 
 //Scripts returns html.Nodes that are need to be placed on the page for nadeshiko to work
 //TODO move somewhere else
-func Scripts() []html.Node {
+// path argument is for where websocket handler will try to connect
+func Scripts(path string) []html.Node {
 	return []html.Node{
 		html.Script().Attribute("src", jquery.WebPath),
-		html.Script().Attribute("src", JsWebPath),
+		html.Script().TextUnsafe(SocketJSCode(path)),
 	}
 }
 
