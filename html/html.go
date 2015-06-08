@@ -1,6 +1,7 @@
 package html
 
 func Html() Node {
+	//TODO Instead of doing he here we can just hard code assumption for html node in Serialiser
 	return Node{nodeType: "html", headTagMetaMagic: "<!DOCTYPE html>"}
 }
 
