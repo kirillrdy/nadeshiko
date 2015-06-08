@@ -127,3 +127,15 @@ func (node Node) Multiple() Node {
 func (node Node) Accept(value string) Node {
 	return node.Attribute("accept", value)
 }
+
+func (node Node) D(value string) Node {
+	return node.Attribute("d", value)
+}
+
+func (node Node) Fill(value string) Node {
+	return node.Attribute("fill", value)
+}
+
+func (node Node) Stroke(value string) Node {
+	return node.Attribute("stroke", value)
+}
