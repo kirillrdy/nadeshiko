@@ -27,9 +27,10 @@ func (node Node) attributesAsString() string {
 	return result.String()
 }
 
-func (node Node) WriteTo(writer io.Writer) (int, error) {
+func (node Node) WriteTo(writer io.Writer) (int64, error) {
 	content := node.String()
-	return io.WriteString(writer, content)
+	written, err := io.WriteString(writer, content)
+	return int64(written), err
 }
 
 func (node Node) String() string {
