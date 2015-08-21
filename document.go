@@ -4,7 +4,7 @@ import (
 	"log"
 	"strings"
 
-	"code.google.com/p/go.net/websocket"
+	"golang.org/x/net/websocket"
 )
 
 //Document repesents clients document ( browser tab )

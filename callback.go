@@ -3,7 +3,7 @@ package nadeshiko
 import (
 	"sync"
 
-	"code.google.com/p/go.net/websocket"
+	"golang.org/x/net/websocket"
 )
 
 type overSocketCallback struct {

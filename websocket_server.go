@@ -2,11 +2,10 @@ package nadeshiko
 
 import (
 	"encoding/json"
+	"golang.org/x/net/websocket"
 	"io"
 	"log"
 	"strconv"
-
-	"code.google.com/p/go.net/websocket"
 )
 
 //TODO this function is too long needs clean up
