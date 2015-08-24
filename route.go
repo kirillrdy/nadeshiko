@@ -1,4 +1,4 @@
-oackage nadeshiko
+package nadeshiko
 
 import "net/http"
 
