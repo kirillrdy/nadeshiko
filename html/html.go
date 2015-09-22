@@ -134,6 +134,10 @@ func Label() Node {
 	return Node{nodeType: "label"}
 }
 
+func Pre() Node {
+	return Node{nodeType: "pre"}
+}
+
 func Select() Node {
 	return Node{nodeType: "select"}
 }
