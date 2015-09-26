@@ -52,6 +52,10 @@ func (node Node) Name(value string) Node {
 	return node.Attribute("name", value)
 }
 
+func (node Node) Content(value string) Node {
+	return node.Attribute("content", value)
+}
+
 func (node Node) For(value string) Node {
 	return node.Attribute("for", value)
 }
