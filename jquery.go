@@ -31,6 +31,10 @@ func (element jQuerySelector) HTML(content html.Node) {
 	element.oneArgumentMethod("html", content.String())
 }
 
+func (element jQuerySelector) HTMLString(content string) {
+	element.oneArgumentMethod("html", content)
+}
+
 func (element jQuerySelector) Append(content html.Node) {
 	element.oneArgumentMethod("append", content.String())
 }
