@@ -12,7 +12,6 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/gorilla/context"
 	"github.com/kirillrdy/nadeshiko/html"
 	"github.com/kirillrdy/nadeshiko/jquery"
 )
@@ -54,7 +53,7 @@ func startWithPortVerbose(port int, verbose bool) {
 	defaultRoutes.get(jquery.WebPath, jquery.FileHandler)
 
 	//TODO get rid of gorilla, rid of own router
-	err := http.ListenAndServe(listenOn, context.ClearHandler(internalHTTPHandler{}))
+	err := http.ListenAndServe(listenOn, internalHTTPHandler{})
 	if err != nil {
 		log.Fatalln("ListenAndServe: " + err.Error())
 	}
