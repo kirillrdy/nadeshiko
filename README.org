@@ -1,0 +1,5 @@
+#+title: Nadeshiko
+#+startup: showall
+
+* Documentation
+http://godoc.org/github.com/kirillrdy/nadeshiko
