@@ -14,32 +14,11 @@ import (
 
 	"github.com/kirillrdy/nadeshiko/html"
 	"github.com/kirillrdy/nadeshiko/jquery"
+	"golang.org/x/net/websocket"
 )
 
 //TODO need better versioning method
 const Version = "0.1.0"
-
-var defaultRoutes routes
-
-//Get adds handler to a GET request
-func Get(path string, handler func(http.ResponseWriter, *http.Request)) {
-	defaultRoutes.get(path, handler)
-}
-
-//Post adds handler to a POST request
-func Post(path string, handler func(http.ResponseWriter, *http.Request)) {
-	defaultRoutes.post(path, handler)
-}
-
-//Nadeshiko adds nadeshiko handler to a given path
-func Nadeshiko(path string, handler func(*Document)) {
-	defaultRoutes.nadeshiko(path, handler)
-}
-
-//TODO Do we actually need this ? should this be internal
-//func WebSocket(path string, handler func(*Document)) {
-//	defaultRoutes.webSocket(path, handler)
-//}
 
 func startWithPortVerbose(port int, verbose bool) {
 
@@ -50,10 +29,10 @@ func startWithPortVerbose(port int, verbose bool) {
 	log.Printf("Listening http://0.0.0.0:%d/\n", port)
 
 	//TODO find better place to initialise defaultRoutes or get rid of defaultRoutes
-	defaultRoutes.get(jquery.WebPath, jquery.FileHandler)
+	http.HandleFunc(jquery.WebPath, jquery.FileHandler)
 
 	//TODO get rid of gorilla, rid of own router
-	err := http.ListenAndServe(listenOn, internalHTTPHandler{})
+	err := http.ListenAndServe(listenOn, nil)
 	if err != nil {
 		log.Fatalln("ListenAndServe: " + err.Error())
 	}
@@ -84,10 +63,7 @@ func Scripts(path string) []html.Node {
 	}
 }
 
-// Where to serve nadeshiko javascript file from
-const JsWebPath = "/socket_init.js"
-
-//JsHandler serves javascript file requires for having nadeshiko running
-func JsHandler(response http.ResponseWriter, request *http.Request) {
-	http.ServeFile(response, request, nadeshikoPublicDir()+JsWebPath)
+// Handler returns returns http.Handler for given nadeshiko handler so that it can be used with router of your choice
+func Handler(nadeshikoHandler func(*Document)) http.Handler {
+	return websocket.Handler(websocketServer(nadeshikoHandler))
 }
