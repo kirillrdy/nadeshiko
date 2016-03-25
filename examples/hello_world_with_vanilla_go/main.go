@@ -9,7 +9,6 @@ import (
 	"github.com/sparkymat/webdsl/css"
 )
 
-const rootPath string = "/"
 const websocketPath string = "/.websocket"
 
 func helloWorldHandler(document *nadeshiko.Document) {
@@ -21,8 +20,8 @@ func httpHandler(response http.ResponseWriter, request *http.Request) {
 }
 
 func main() {
-	http.DefaultServeMux.HandleFunc(rootPath, httpHandler)
-	http.DefaultServeMux.HandleFunc(jquery.WebPath, jquery.FileHandler)
-	http.DefaultServeMux.Handle(websocketPath, nadeshiko.Handler(helloWorldHandler))
+	http.HandleFunc("/", httpHandler)
+	http.HandleFunc(jquery.WebPath, jquery.FileHandler)
+	http.Handle(websocketPath, nadeshiko.Handler(helloWorldHandler))
 	http.ListenAndServe(":3000", nil)
 }
