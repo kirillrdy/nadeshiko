@@ -38,7 +38,7 @@ func pageNotFound() {
 }
 
 func handlePopState() {
-	js.Global.Get("window").Call("addEventListener", "popstate", func(event js.Object) {
+	js.Global.Get("window").Call("addEventListener", "popstate", func(event *js.Object) {
 		applyRoute()
 	})
 }
