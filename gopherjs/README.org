@@ -1,0 +1,17 @@
+#+STARTUP: showall
+#+TITLE: Gopherjs
+* Gopherjs Experiments
+
+This for now is gopherjs experiment
+* Requirements
+gopherjs
+  
+* TODO 
+** need beetter handling of failed compilation in dev mode             :bug:
+** figure out how to serve file in dev from temp location      :improvement:
+
+* Examples
+See examples directory for examples
+#+BEGIN_SRC sh
+  go run examples/hello_world/server.go
+#+END_SRC
