@@ -19,15 +19,25 @@ type App struct {
 func (app App) Mount(path string) {
 	http.HandleFunc(path, app.Handler())
 	http.HandleFunc(app.CompiledJsFileWebPath(), app.JsFileHandler())
+	http.HandleFunc(app.CompiledJsMapFileWebPath(), app.JsMapFileHandler())
 }
 
 func (app App) compiledJsFileName() string {
 	return filepath.Base(app.PackageName) + ".js"
 }
 
-//CompiledJsFileWebPath is a path via which compile js app will be served
+func (app App) compiledJsMapFileName() string {
+	return app.compiledJsFileName() + ".map"
+}
+
+//CompiledJsFileWebPath is a path via which compiled js app will be served
 func (app App) CompiledJsFileWebPath() string {
 	return "/" + app.compiledJsFileName()
+}
+
+//CompiledJsMapFileWebPath is a path via which compiled js map app will be served
+func (app App) CompiledJsMapFileWebPath() string {
+	return "/" + app.compiledJsMapFileName()
 }
 
 func (app App) compile() error {
@@ -48,6 +58,15 @@ func (app App) compile() error {
 func (app App) Handler() http.HandlerFunc {
 
 	return func(response http.ResponseWriter, request *http.Request) {
+
+		//TODO this is clearly for dev only
+		if request.URL.Path != "/" {
+			log.Println(request.URL.Path)
+			goPath := os.Getenv("GOPATH")
+			http.ServeFile(response, request, goPath+"/src"+request.URL.Path)
+			return
+		}
+
 		//TODO dont do this here
 		err := app.compile()
 		if err != nil {
@@ -68,6 +87,15 @@ func (app App) Handler() http.HandlerFunc {
 //JsFileHandler serves compiled js file to be served via CompiledJsFileWebPath()
 func (app App) JsFileHandler() http.HandlerFunc {
 	return func(response http.ResponseWriter, request *http.Request) {
+		log.Println("Serving js file")
 		http.ServeFile(response, request, app.compiledJsFileName())
+	}
+}
+
+//JsMapFileHandler serves compiled js file to be served via CompiledJsFileWebPath()
+func (app App) JsMapFileHandler() http.HandlerFunc {
+	return func(response http.ResponseWriter, request *http.Request) {
+		log.Println("Serving js map file")
+		http.ServeFile(response, request, app.compiledJsMapFileName())
 	}
 }
