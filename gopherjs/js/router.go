@@ -3,7 +3,6 @@ package js
 import (
 	"github.com/gopherjs/gopherjs/js"
 	"github.com/kirillrdy/nadeshiko/html"
-	"honnef.co/go/js/dom"
 )
 
 func currentPath() string {
@@ -12,16 +11,16 @@ func currentPath() string {
 
 type route struct {
 	path    string
-	handler func(dom.Document)
+	handler func()
 }
 
 var routes []route
 
-func AddRoute(path string, handler func(dom.Document)) {
+func AddRoute(path string, handler func()) {
 	routes = append(routes, route{path: path, handler: handler})
 }
 
-func findRoute(path string) func(dom.Document) {
+func findRouteHandler(path string) func() {
 	for _, route := range routes {
 		//TODO this needs to be much better
 		if route.path == path {
@@ -31,7 +30,7 @@ func findRoute(path string) func(dom.Document) {
 	return pageNotFound
 }
 
-func pageNotFound(document dom.Document) {
+func pageNotFound() {
 	SetTitle("Page Not Found")
 	SetBody(
 		html.H1().Text("ERROR Page not found"),
@@ -39,22 +38,20 @@ func pageNotFound(document dom.Document) {
 }
 
 func handlePopState() {
-	dom.GetWindow().AddEventListener("popstate", true, func(event dom.Event) {
+	js.Global.Get("window").Call("addEventListener", "popstate", func(event js.Object) {
 		applyRoute()
-
 	})
 }
 
 func applyRoute() {
-	document := dom.GetWindow().Document()
-	handler := findRoute(currentPath())
-	handler(document)
+	handler := findRouteHandler(currentPath())
+	handler()
 }
 
 //TODO rename to something better
 func RouterRun() {
 	//TODO for some reasong this needs to be done before any call to dom
-	js.Global.Get("document").Call("write", "a")
+	js.Global.Get("document").Call("write", "Init Router")
 
 	handlePopState()
 	applyRoute()

@@ -3,21 +3,25 @@ package js
 import (
 	"github.com/gopherjs/gopherjs/js"
 	"github.com/kirillrdy/nadeshiko/html"
-	"honnef.co/go/js/dom"
 )
 
+//SetTitle sets the title of the document
 func SetTitle(title string) {
 	js.Global.Get("document").Set("title", title)
 }
 
-func getBody() dom.Element {
-	return dom.GetWindow().Document().QuerySelector("body")
+func getBody() *js.Object {
+	return js.Global.Get("document").Call("querySelector", "body")
 }
 
+//SetBody sets the content of the body, in the future this should be replaced by own dom wrapping
 func SetBody(content html.Node) {
-	getBody().SetInnerHTML(content.String())
+	//TODO replace with own dom thingy
+	getBody().Set("innerHTML", content.String())
 }
 
+//NavigateTo changes current path and calls appropriate route handler
+//TODO move this to router
 func NavigateTo(path string) {
 	js.Global.Get("window").Get("history").Call("pushState", nil, nil, path)
 	applyRoute()
