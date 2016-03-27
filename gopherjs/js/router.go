@@ -37,10 +37,15 @@ func pageNotFound() {
 	)
 }
 
+func addEventListener(object *js.Object, eventName string, callback func(*js.Object)) {
+	object.Call("addEventListener", eventName, callback)
+}
+
 func handlePopState() {
-	js.Global.Get("window").Call("addEventListener", "popstate", func(event *js.Object) {
+	popStateCallBack := func(event *js.Object) {
 		applyRoute()
-	})
+	}
+	addEventListener(js.Global.Get("window"), "popstate", popStateCallBack)
 }
 
 func applyRoute() {
@@ -50,9 +55,9 @@ func applyRoute() {
 
 //TODO rename to something better
 func RouterRun() {
-	//TODO for some reasong this needs to be done before any call to dom
-	js.Global.Get("document").Call("write", "Init Router")
-
 	handlePopState()
-	applyRoute()
+	addEventListener(js.Global.Get("document"), "DOMContentLoaded", func(event *js.Object) {
+		applyRoute()
+	})
+
 }

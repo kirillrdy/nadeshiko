@@ -10,14 +10,19 @@ func SetTitle(title string) {
 	js.Global.Get("document").Set("title", title)
 }
 
+func getDocument() *js.Object {
+	return js.Global.Get("document")
+}
+
 func getBody() *js.Object {
-	return js.Global.Get("document").Call("querySelector", "body")
+	return getDocument().Call("querySelector", "body")
 }
 
 //SetBody sets the content of the body, in the future this should be replaced by own dom wrapping
 func SetBody(content html.Node) {
 	//TODO replace with own dom thingy
-	getBody().Set("innerHTML", content.String())
+	body := getBody()
+	body.Set("innerHTML", content.String())
 }
 
 //NavigateTo changes current path and calls appropriate route handler
