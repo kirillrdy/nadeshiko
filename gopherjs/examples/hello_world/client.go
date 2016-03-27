@@ -3,14 +3,13 @@
 package main
 
 import (
-	"github.com/kirillrdy/nadeshiko/gopherjs/js"
 	"github.com/kirillrdy/nadeshiko/html"
-	"honnef.co/go/js/dom"
+	"github.com/kirillrdy/nadeshiko/js"
 )
 
-func mainPage(document dom.Document) {
-	js.SetTitle("Main Page")
-	js.SetBody(html.Div().Children(
+func mainPage() {
+	js.GetDocument().SetTitle("Main Page")
+	js.GetDocument().GetBody().SetInnerHTML(html.Div().Children(
 		html.H1().Text("Hello world"),
 	))
 }
