@@ -2,6 +2,7 @@ package gopherjs
 
 import (
 	"github.com/kirillrdy/nadeshiko/html"
+	"io"
 	"log"
 	"net/http"
 	"os"
@@ -40,15 +41,15 @@ func (app App) CompiledJsMapFileWebPath() string {
 	return "/" + app.compiledJsMapFileName()
 }
 
-func (app App) compile() error {
+func (app App) compile(errorWriter io.Writer) error {
 	now := time.Now()
 	//TODO something that uses gopherjs as a library
 	//TODO add -m (minified support)
 	log.Printf("Compiling JS Application: %#v", app.PackageName)
 	command := exec.Command("gopherjs", "build", app.PackageName)
 	//TODO return these errors to the page  ( in dev mode )
-	command.Stdout = os.Stdout
-	command.Stderr = os.Stderr
+	command.Stdout = errorWriter
+	command.Stderr = errorWriter
 	err := command.Run()
 	log.Printf("Compilation took %v", time.Since(now))
 	return err
@@ -68,9 +69,9 @@ func (app App) Handler() http.HandlerFunc {
 		}
 
 		//TODO dont do this here
-		err := app.compile()
+		err := app.compile(response)
 		if err != nil {
-			http.Error(response, err.Error(), http.StatusInternalServerError)
+			//http.Error(response, err.Error(), http.StatusInternalServerError)
 			return
 		}
 

@@ -4,8 +4,8 @@ package main
 
 import (
 	gopherjs "github.com/gopherjs/gopherjs/js"
-	"github.com/kirillrdy/nadeshiko/gopherjs/js"
 	"github.com/kirillrdy/nadeshiko/html"
+	"github.com/kirillrdy/nadeshiko/js"
 	"github.com/sparkymat/webdsl/css"
 )
 
@@ -21,8 +21,8 @@ var h1Id css.Id = "my-h1"
 
 func mainPage() {
 
-	js.SetTitle("Main Page")
-	js.SetBody(html.Div().Children(
+	js.GetDocument().SetTitle("Main Page")
+	js.GetDocument().GetBody().SetInnerHTML(html.Div().Children(
 		html.H1().Id(h1Id).Text("Click Me"),
 		html.A().Href(paths.second).Text("Second page"),
 	))
@@ -32,8 +32,8 @@ func mainPage() {
 }
 
 func secondPage() {
-	js.SetTitle("Second Page")
-	js.SetBody(
+	js.GetDocument().SetTitle("Second Page")
+	js.GetDocument().GetBody().SetInnerHTML(
 		html.Div().Children(
 			html.H1().Id(h1Id).Text("I am second page"),
 			html.A().Href(paths.main).Text("First page"),
@@ -47,8 +47,8 @@ func secondPage() {
 func navUsingH1(path string) {
 
 	//TODO make this better
-	h1 := gopherjs.Global.Get("document").Call("querySelector", h1Id.Selector())
-	h1.Call("addEventListener", "click", func(event *gopherjs.Object) {
+	h1 := js.GetDocument().QuerySelector(h1Id)
+	h1.AddEventListener("click", func(event *gopherjs.Object) {
 		js.NavigateTo(path)
 	})
 }

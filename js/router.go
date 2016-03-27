@@ -31,8 +31,8 @@ func findRouteHandler(path string) func() {
 }
 
 func pageNotFound() {
-	SetTitle("Page Not Found")
-	SetBody(
+	GetDocument().SetTitle("Page Not Found")
+	GetDocument().GetBody().SetInnerHTML(
 		html.H1().Text("ERROR Page not found"),
 	)
 }
@@ -60,4 +60,11 @@ func RouterRun() {
 		applyRoute()
 	})
 
+}
+
+//NavigateTo changes current path and calls appropriate route handler
+//TODO move this to router
+func NavigateTo(path string) {
+	js.Global.Get("window").Get("history").Call("pushState", nil, nil, path)
+	applyRoute()
 }
