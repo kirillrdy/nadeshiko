@@ -3,7 +3,7 @@ package nadeshiko
 import (
 	"io"
 
-	"github.com/kirillrdy/nadeshiko/html"
+	"github.com/kirillrdy/web/html"
 )
 
 //This is the default blank html page. that contains required clientside js code to have nadeshiko working

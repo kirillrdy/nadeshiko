@@ -4,8 +4,8 @@ import (
 	"net/http"
 
 	"github.com/kirillrdy/nadeshiko"
-	"github.com/kirillrdy/nadeshiko/html"
 	"github.com/kirillrdy/nadeshiko/jquery"
+	"github.com/kirillrdy/web/html"
 	"github.com/sparkymat/webdsl/css"
 )
 

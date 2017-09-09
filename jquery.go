@@ -5,7 +5,7 @@ import (
 	"strconv"
 	"time"
 
-	"github.com/kirillrdy/nadeshiko/html"
+	"github.com/kirillrdy/web/html"
 	"github.com/sparkymat/webdsl/css"
 )
 

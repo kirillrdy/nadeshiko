@@ -12,8 +12,8 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/kirillrdy/nadeshiko/html"
 	"github.com/kirillrdy/nadeshiko/jquery"
+	"github.com/kirillrdy/web/html"
 	"golang.org/x/net/websocket"
 )
 
