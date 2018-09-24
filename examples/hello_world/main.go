@@ -11,8 +11,13 @@ import (
 
 const websocketPath string = "/.websocket"
 
+const click css.Class = "click"
+
 func helloWorldHandler(document *nadeshiko.Document) {
-	document.JQuery(css.Body).HTML(html.H1().Text("Hello World !!!"))
+	document.JQuery(css.Body).HTML(html.H1().Class("click").Text("Hello World !!!"))
+	document.JQuery(click).Click(func() {
+		document.JQuery(click).SetText("Oh now")
+	})
 }
 
 func httpHandler(response http.ResponseWriter, request *http.Request) {
