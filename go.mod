@@ -1,5 +1,7 @@
 module github.com/kirillrdy/nadeshiko
 
+go 1.15
+
 require (
 	github.com/kirillrdy/web v0.0.0-20170502231629-1dc2c13cfa99
 	github.com/sparkymat/webdsl v0.0.0-20170731094902-c07b606d85cc
