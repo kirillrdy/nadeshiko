@@ -3,7 +3,8 @@ module github.com/kirillrdy/nadeshiko
 go 1.15
 
 require (
-	github.com/kirillrdy/web v0.0.0-20170502231629-1dc2c13cfa99
+	github.com/gopherjs/gopherjs v0.0.0-20210202160940-bed99a852dfe
+	github.com/kirillrdy/web v0.0.0-20180917024241-a58088ab0705
 	github.com/sparkymat/webdsl v0.0.0-20170731094902-c07b606d85cc
-	golang.org/x/net v0.0.0-20180911220305-26e67e76b6c3
+	golang.org/x/net v0.0.0-20210119194325-5f4716e94777
 )
