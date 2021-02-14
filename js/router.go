@@ -2,7 +2,7 @@ package js
 
 import (
 	"github.com/gopherjs/gopherjs/js"
-	"github.com/kirillrdy/nadeshiko/html"
+	"github.com/kirillrdy/web/html"
 )
 
 func currentPath() string {

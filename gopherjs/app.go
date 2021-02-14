@@ -1,7 +1,7 @@
 package gopherjs
 
 import (
-	"github.com/kirillrdy/nadeshiko/html"
+	"github.com/kirillrdy/web/html"
 	"io"
 	"log"
 	"net/http"

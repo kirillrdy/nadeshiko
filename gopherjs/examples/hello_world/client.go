@@ -3,8 +3,8 @@
 package main
 
 import (
-	"github.com/kirillrdy/nadeshiko/html"
 	"github.com/kirillrdy/nadeshiko/js"
+	"github.com/kirillrdy/web/html"
 )
 
 func mainPage() {

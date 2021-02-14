@@ -2,7 +2,7 @@ package js
 
 import (
 	gopherjs "github.com/gopherjs/gopherjs/js"
-	"github.com/kirillrdy/nadeshiko/html"
+	"github.com/kirillrdy/web/html"
 )
 
 type Element struct {

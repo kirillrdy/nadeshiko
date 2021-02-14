@@ -4,8 +4,8 @@ package main
 
 import (
 	gopherjs "github.com/gopherjs/gopherjs/js"
-	"github.com/kirillrdy/nadeshiko/html"
 	"github.com/kirillrdy/nadeshiko/js"
+	"github.com/kirillrdy/web/html"
 	"github.com/sparkymat/webdsl/css"
 )
 
